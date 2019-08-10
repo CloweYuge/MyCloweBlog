@@ -11,10 +11,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Admin(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    lgoin_name = db.Column(db.String(20))
+    login_name = db.Column(db.String(20))
     username = db.Column(db.String(20))
+    email = db.Column(db.String(25))
     password_hash = db.Column(db.String(128))
     about = db.Column(db.Text)
+
+    def __init__(self, **kwargs):
+        super(Admin, self).__init__(**kwargs)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -27,12 +31,16 @@ class Plate(db.Model):
     """
     板块
     """
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(15))
 
 
 class Category(db.Model):
     """
     分类
     """
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(15))
 
 
 class Comment(db.Model):

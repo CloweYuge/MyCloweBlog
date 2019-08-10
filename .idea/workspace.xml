@@ -2,23 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62fceaba-5d36-4e1a-8554-472cf7b14536" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/cloweyuge.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/blueprints/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/blueprints/auth.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/blueprints/home.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/decorators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/emails.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/extensions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/notifications.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/templates/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mycloweblog/blueprints/blog.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mycloweblog/error.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/blueprints/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/blueprints/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/blueprints/home.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/blueprints/home.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/emails.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/emails.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/extensions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/extensions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/notifications.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/notifications.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycloweblog/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,39 +38,25 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mycloweblog/settings.py">
+        <entry file="file://$PROJECT_DIR$/mycloweblog/decorators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2760">
-              <caret line="115" selection-start-line="115" selection-end-line="115" />
+            <state relative-caret-position="715">
+              <caret line="44" selection-start-line="44" selection-end-line="44" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#0#27#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mycloweblog/decorators.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mycloweblog/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="701">
-              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+            <state relative-caret-position="360">
+              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mycloweblog/templates/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1469">
-              <caret line="145" column="19" selection-start-line="145" selection-start-column="19" selection-end-line="145" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -88,8 +69,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/home.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="6" column="43" lean-forward="true" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+            <state>
+              <caret selection-end-line="9" selection-end-column="37" />
+              <folding>
+                <element signature="e#0#92#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mycloweblog/notifications.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/blog.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="9" selection-end-column="37" />
               <folding>
                 <element signature="e#0#92#0" expanded="true" />
               </folding>
@@ -99,19 +104,21 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/auth.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mycloweblog/__init__.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="e#0#92#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mycloweblog/extensions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="34" column="40" lean-forward="true" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+            <state relative-caret-position="504">
+              <caret line="33" column="24" lean-forward="true" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -120,8 +127,24 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mycloweblog/notifications.py">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/mycloweblog/emails.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="53">
+              <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mycloweblog/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="7" column="47" lean-forward="true" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -134,28 +157,36 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>Category</find>
+      <find>Admin</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mycloweblog/emails.py" />
-        <option value="$PROJECT_DIR$/mycloweblog/utils.py" />
-        <option value="$PROJECT_DIR$/mycloweblog/notifications.py" />
         <option value="$PROJECT_DIR$/mycloweblog/blueprints/__init__.py" />
-        <option value="$PROJECT_DIR$/mycloweblog/blueprints/auth.py" />
         <option value="$PROJECT_DIR$/mycloweblog/templates/base.html" />
         <option value="$PROJECT_DIR$/mycloweblog/settings.py" />
-        <option value="$PROJECT_DIR$/mycloweblog/blueprints/home.py" />
         <option value="$PROJECT_DIR$/mycloweblog/decorators.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/utils.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/error.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/emails.py" />
         <option value="$PROJECT_DIR$/mycloweblog/extensions.py" />
         <option value="$PROJECT_DIR$/mycloweblog/models.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/blueprints/home.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/__init__.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/blueprints/blog.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/blueprints/auth.py" />
+        <option value="$PROJECT_DIR$/mycloweblog/notifications.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="960" />
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="960" />
     <option name="height" value="1037" />
   </component>
@@ -179,6 +210,12 @@
               <item name="MyCloweBlog" type="b2602c69:ProjectViewProjectNode" />
               <item name="MyCloweBlog" type="462c0819:PsiDirectoryNode" />
               <item name="mycloweblog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyCloweBlog" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyCloweBlog" type="462c0819:PsiDirectoryNode" />
+              <item name="mycloweblog" type="462c0819:PsiDirectoryNode" />
+              <item name="blueprints" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -221,19 +258,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565415175853</updated>
-      <workItem from="1565415177444" duration="7358000" />
+      <workItem from="1565415177444" duration="11818000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7358000" />
+    <option name="totallyTimeSpent" value="11818000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="0" width="960" height="1037" extended-state="4" />
+    <frame x="0" y="0" width="1920" height="1037" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3017429" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10117146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -249,7 +286,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="Database" visible="true" weight="0.03267974" />
+      <window_info anchor="right" id="Database" visible="true" weight="0.015974442" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -283,12 +320,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/emails.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/utils.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Pipfile">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -296,12 +327,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1197" />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/auth.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/mycloweblog/settings.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -320,29 +345,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/home.py">
+    <entry file="file://$PROJECT_DIR$/mycloweblog/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="43" lean-forward="true" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+        <state relative-caret-position="2280">
+          <caret line="105" column="14" selection-start-line="105" selection-start-column="14" selection-end-line="105" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycloweblog/error.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycloweblog/decorators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="715">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
           <folding>
-            <element signature="e#0#92#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/notifications.py">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/mycloweblog/emails.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53">
+          <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mycloweblog/decorators.py">
+    <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/mycloweblog/extensions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="34" column="40" lean-forward="true" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+        <state relative-caret-position="504">
+          <caret line="33" column="24" lean-forward="true" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
@@ -351,10 +394,57 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mycloweblog/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="701">
-          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+        <state relative-caret-position="360">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycloweblog/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="47" lean-forward="true" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/home.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="9" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#92#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/blog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="9" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#92#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycloweblog/blueprints/auth.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#92#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mycloweblog/notifications.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>

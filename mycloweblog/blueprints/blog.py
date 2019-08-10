@@ -7,5 +7,5 @@ from mycloweblog.decorators import permission_required, admin_required
 from mycloweblog.utils import redirect_back
 
 
-home_bp = Blueprint('home', __name__)
+blog_bp = Blueprint('blog', __name__)
 

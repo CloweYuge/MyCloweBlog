@@ -31,9 +31,9 @@ login_manager.login_message = '请先登录'
 
 
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(Admin_id):
     from mycloweblog.models import Admin
-    user = Admin.query.get(int(user_id))
+    user = Admin.query.get(int(Admin_id))
     return user
 
 
