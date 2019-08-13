@@ -6,16 +6,8 @@
       <change afterPath="$PROJECT_DIR$/mycloweblog/static/js/popper.min.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/mycloweblog/templates/blog/index.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/mycloweblog/templates/errors/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/blueprints/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/blueprints/auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mycloweblog/blueprints/blog.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/blueprints/blog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/blueprints/home.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/blueprints/home.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/extensions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/extensions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mycloweblog/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/wsgi.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -106,8 +98,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mycloweblog/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="64" column="82" selection-start-line="64" selection-start-column="82" selection-end-line="64" selection-end-column="82" />
+            <state relative-caret-position="715">
+              <caret line="78" column="7" lean-forward="true" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -299,18 +291,26 @@
       <updated>1565415175853</updated>
       <workItem from="1565415177444" duration="11971000" />
       <workItem from="1565573936944" duration="16058000" />
-      <workItem from="1565658043033" duration="14649000" />
+      <workItem from="1565658043033" duration="14967000" />
     </task>
+    <task id="LOCAL-00001" summary="数据库模型建立，建立初步页面">
+      <created>1565687873116</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1565687873116</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42678000" />
+    <option name="totallyTimeSpent" value="42996000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1037" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1373802" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1373802" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -321,7 +321,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289183" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" />
@@ -335,6 +335,36 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="数据库模型建立，建立初步页面" />
+    <option name="LAST_COMMIT_MESSAGE" value="数据库模型建立，建立初步页面" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Pipfile.lock">
@@ -511,8 +541,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mycloweblog/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="64" column="82" selection-start-line="64" selection-start-column="82" selection-end-line="64" selection-end-column="82" />
+        <state relative-caret-position="715">
+          <caret line="78" column="7" lean-forward="true" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
         </state>
       </provider>
     </entry>

@@ -9,3 +9,8 @@ from mycloweblog.utils import redirect_back
 
 blog_bp = Blueprint('blog', __name__)
 
+
+@blog_bp.route("/")
+def index():
+    return render_template("blog/index.html")
+
