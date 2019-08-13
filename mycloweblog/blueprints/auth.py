@@ -8,3 +8,8 @@ from mycloweblog.utils import redirect_back
 
 
 auth_bp = Blueprint('auth', __name__)
+
+
+@auth_bp.route("/login")
+def login():
+    pass

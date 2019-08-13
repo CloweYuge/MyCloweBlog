@@ -6,10 +6,10 @@ from flask_login import current_user
 
 from mycloweblog.blueprints.home import home_bp
 from mycloweblog.blueprints.auth import auth_bp
-from mycloweblog.blueprints.admin import admin_bp
+# from mycloweblog.blueprints.admin import admin_bp
 from mycloweblog.blueprints.blog import blog_bp
-from mycloweblog.blueprints.ajax import ajax_bp
-from mycloweblog.blueprints.main import main_bp
+# from mycloweblog.blueprints.ajax import ajax_bp
+# from mycloweblog.blueprints.main import main_bp
 from mycloweblog.extensions import bootstrap, db, moment, ckeditor, mail, login_manager, csrf, dropzone, avatars, \
     migrate, whooshee
 from mycloweblog.settings import config
@@ -22,7 +22,7 @@ def create_app(config_name=None):
         # 首先查找环境变量，虚拟环境变量在.flaskenv中配置，未找到即使用development为默认
         config_name = os.getenv('FLASK_CONFIG', 'development')
 
-    app = Flask('clowelog')
+    app = Flask('mycloweblog')
     app.config.from_object(config[config_name])  # config字典中储存了类对象，由键值获取不同部署环境下的配置类
 
     register_logging(app)
@@ -56,9 +56,9 @@ def register_extensions(app):       # 拓展插件注册
 
 def register_blueprint(app):        # 蓝图注册
     app.register_blueprint(blog_bp)
-    app.register_blueprint(main_bp, url_prefix='/main')
-    app.register_blueprint(ajax_bp, url_prefix='/ajax')
-    app.register_blueprint(admin_bp, url_prefix='/admin')
+    # app.register_blueprint(main_bp, url_prefix='/main')
+    # app.register_blueprint(ajax_bp, url_prefix='/ajax')
+    # app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
 
@@ -103,36 +103,8 @@ def register_errors(app):           # 错误响应注册
     def handle_csrf_error(e):
         return render_template('errors/400.html', description=e.description), 400
 
-#
-# def register_commands(app):
-#     @app.cli.command()
-#     @click.option('--category', default=10, help='Quantity of categories, default is 10.')
-#     @click.option('--post', default=50, help='Quantity of posts, default is 50.')
-#     @click.option('--comment', default=500, help='Quantity of comments, default is 500.')
-#     def forge(category, post, comment):
-#         """生成网站虚拟数据，和管理员账户，默认admin-root，密码helloflask"""
-#         # from mycloweblog.fakes import fake_admin, fake_categories, fake_posts, fake_comments, fake_user
-#
-#         db.drop_all()
-#         db.create_all()
-#
-#         click.echo('生成用户信息')
-#         fake_user()
-#
-#         click.echo('生成管理员（Generating the administrator...）')
-#         fake_admin()
-#
-#         click.echo('生成分类信息（Generating %d categories...）' % category)
-#         fake_categories(category)
-#
-#         click.echo('生成文章（Generating %d posts...）' % post)
-#         fake_posts(post)
-#
-#         click.echo('生成评论（Generating %d comments...）' % comment)
-#         fake_comments(comment)
-#
-#         click.echo('完成（Done.）')
 
+def register_commands(app):
     @app.cli.command()
     @click.option('--name', help='管理员在站点中的昵称')
     @click.option('--username', help='用于登录的用户名')
