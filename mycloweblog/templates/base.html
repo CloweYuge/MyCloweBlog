@@ -15,38 +15,89 @@
 {#              type="text/css">#}
 {#            <link rel="stylesheet" href="{{ url_for('static', filename='css/round_icon.css') }}" type="text/css">#}
 {#            <link rel="stylesheet" href="{{ url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css') }}">#}
-{#            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">#}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/all_style.css') }}" type="text/css">
         {% endblock styles %}
     {% endblock head %}
 </head>
 <body>
 {% block nav %}
     <nav class="navbar fixed-top navbar-light bg-light navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
-            <img src="{{ url_for("static", filename="images/logo.png") }}" width="120" height="40" alt="">
-        </a>
-        <a class="navbar-brand" href="{{ url_for('blog.index') }}">CloweLog</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">技术</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">记事</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">玩游戏</a>
-                </li>
-            </ul>
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for("static", filename="images/logo.png") }}" width="30" height="30" alt="">
+            </a>
+            <a class="navbar-brand" href="{{ url_for('blog.index') }}">CloweBlog</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">技术</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">小工具</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">吐槽</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">玩游戏</a>
+                    </li>
+                </ul>
+                <div class="navbar-nav ml-auto">
+    {#                {% if current_user.is_authenticated %}#}
+                        <div class="dropdown nav-item">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-expanded="false">
+                                <img class="avatar-xs"
+                                     src="{{ url_for("static", filename="images/logo.png") }}" width="22" height="22" alt="">
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                <h6 class="dropdown-header">Logged in as</h6>
+                                <a class="dropdown-item" href="#">
+                                    <span class="oi oi-person"></span> 个人
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    <span class="oi oi-cog"></span> 设置
+                                </a>
+    {#                            {% if current_user.can('MODERATE') %}#}
+                                    <a class="dropdown-item" href="#">
+                                        <span class="oi oi-dashboard"></span> 仪表盘
+                                    </a>
+    {#                            {% endif %}#}
+                                <a class="dropdown-item" href="#">
+                                    <span class="oi oi-power-standby"></span> 退出
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                发布
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    {#                            {% if current_user.can('UPPOST') %}#}
+                                <a class="dropdown-item" href="#">文章</a>
+    {#                            {% endif %}#}
+{#                                <a class="dropdown-item" href="#">图片</a>#}
+                            </div>
+                        </div>
+    {#                {% endif %}#}
+                </div>
+            </div>
         </div>
+
     </nav>
 {% endblock nav %}
+<div class="video-bg">
+    <video class="video-bg" src="{{ url_for("static", filename="video/usaNCED.mp4") }}" type="video/mp4" autoplay="" loop="" muted=""></video>
+</div>
+
 
 <main class="container">
 {#    {% for message in get_flashed_messages(with_categories=True) %}#}
