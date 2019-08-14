@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62fceaba-5d36-4e1a-8554-472cf7b14536" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/mycloweblog/static/js/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/static/js/popper.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/templates/blog/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mycloweblog/templates/errors/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/blueprints/blog.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/blueprints/blog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mycloweblog/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/mycloweblog/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/wsgi.py" afterDir="false" />
-    </list>
+    <list default="true" id="62fceaba-5d36-4e1a-8554-472cf7b14536" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +283,7 @@
       <updated>1565415175853</updated>
       <workItem from="1565415177444" duration="11971000" />
       <workItem from="1565573936944" duration="16058000" />
-      <workItem from="1565658043033" duration="14967000" />
+      <workItem from="1565658043033" duration="15392000" />
     </task>
     <task id="LOCAL-00001" summary="数据库模型建立，建立初步页面">
       <created>1565687873116</created>
@@ -304,11 +296,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42996000" />
+    <option name="totallyTimeSpent" value="43421000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1037" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1373802" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
