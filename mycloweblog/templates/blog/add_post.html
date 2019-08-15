@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}发布文章{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for("static", filename="mdeditor/css/editormd.min.css") }}" />
+{% endblock styles %}
+
+{% block content %}
+{#    <div class="row justify-content-md-center">#}
+        <div class="page-header">
+            <h1>发布文章</h1>
+        </div>
+        <div class="row">
+            <form action="{{ url_for('blog.add_post') }}" method="post" style="width: 100%">
+                <div class="col-sm-9">
+{#                    {{ render_field(form.title) }}#}
+                    <div class="form-group required">
+                        <label class="form-control-label" for="title">标题</label>
+                        <input class="form-control" id="title" name="title" required="" type="text" value="">
+                    </div>
+                </div>
+{#                <div class="col-sm-3 float-right" style="margin-top: 2.5%">#}
+{#                    <div class="card bg-light mb-3 w-100">#}
+{#                        <div class="card-body">#}
+{#                            <div id="form">#}
+{#                                {{ form.csrf_token }}#}
+{#                                {{ render_field(form.category) }}#}
+{#                                {{ render_field(form.submit, class='btn btn-success btn-sm') }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+                <div class="col-sm">
+{#                    {{ render_field(form.body) }}#}
+                    <div id="mdeditor">
+{#                        <label class="form-control-label" for="title">标题</label>#}
+                        <textarea aria-label="mdeditor" style="display:none;">### Hello Editor.md !</textarea>
+                    </div>
+                </div>
+{#                <div>#}
+{##}
+{#                </div>#}
+            </form>
+        </div>
+{#    </div>#}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='mdeditor/editormd.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            var editor = editormd("mdeditor", {
+                {#width: "100%",#}
+                height: "calc(650px)",
+                // markdown: "xxxx",     // 设置内容dynamic set Markdown text
+                path : "{{ url_for('static', filename='mdeditor/lib/') }}"  // Autoload modules mode, codemirror, marked... dependents libs path
+            });
+        });
+    </script>
+{% endblock %}

@@ -82,7 +82,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
     {#                            {% if current_user.can('UPPOST') %}#}
-                                <a class="dropdown-item" href="#">文章</a>
+                                <a class="dropdown-item" href="{{ url_for("blog.add_post") }}">文章</a>
     {#                            {% endif %}#}
 {#                                <a class="dropdown-item" href="#">图片</a>#}
                             </div>
@@ -95,7 +95,7 @@
     </nav>
 {% endblock nav %}
 <div class="video-bg">
-    <video src="{{ url_for("static", filename="video/usaNCED.mp4") }}" type="video/mp4" autoplay="" loop="" muted=""></video>
+    <video src="{{ url_for("static", filename="video/usaNCE.mp4") }}" type="video/mp4" autoplay="" loop="" muted=""></video>
 </div>
 
 

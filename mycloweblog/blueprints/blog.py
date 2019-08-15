@@ -14,3 +14,7 @@ blog_bp = Blueprint('blog', __name__)
 def index():
     return render_template("blog/index.html")
 
+
+@blog_bp.route("/add_post")
+def add_post():
+    return render_template("blog/add_post.html")
