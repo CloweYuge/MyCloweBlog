@@ -1,0 +1,12 @@
+{% macro tag_card(tags) %}
+    <figure class="thumbnail">
+{#    点击后跳转页面#}
+        <a href="#">
+            <img width="750" height="566" src="#" data-original="#" class="lazy attachment-full size-full wp-post-image" alt="" style="display: block;">
+            <noscript>
+{#                如果浏览器不支持懒加载的话就使用普通图片标签#}
+                <img width="750" height="566" src="#" class="attachment-full size-full wp-post-image" alt="" />
+            </noscript>
+        </a>
+    </figure>
+{% endmacro %}
