@@ -1,0 +1,120 @@
+{% macro tag_card(tags) %}
+    <style>
+    .tagsinput{
+        background-color: white;
+        width: 100%;
+        height: 100%;
+        padding: 3px 3px 3px 3px;
+        text-align: left;
+        font-size: 0;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }
+    .tagsinput .badge {
+        background-color: #e3f3fe;
+        border: 1px solid #93c9f1;
+        color: #93c9f1;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        overflow: hidden;
+        margin: 3px 3px 3px 3px;
+        padding: 6px 12px 6px 12px;
+        transition: .25s linear;
+    }
+    .tagsinput .badge > span {
+        color: white;
+        cursor: pointer;
+        font-size: 12px;
+        position: absolute;
+        right: 0;
+        text-align: right;
+        text-decoration: none;
+        top: 0;
+        width: 100%;
+        bottom: 0;
+        z-index: 2;
+    }
+    .tagsinput input[type="text"] {
+        font-size: 14px;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        width: auto !important;
+        max-width: inherit;
+        min-width: 80px;
+        vertical-align: top;
+        height: 29px;
+        color: #34495e;
+    }
+    </style>
+    <div>
+        <div class="tagsinput">
+            <span class="badge badge-info">有车<span data-role="remove"></span>
+            </span>
+            <span class="badge badge-info">公务员<span data-role="remove"></span>
+            </span>
+            <span class="badge badge-info">单位领导<span data-role="remove"></span>
+            </span>
+            <input type="text" placeholder="输入后回车" id="tag-add">
+        </div>
+        <input name="tagsinput" id="tagsinputval" class="tagsinput" value="有车,公务员,单位领导" style="display: none;">
+        <script>
+            $("#tag-add").keyup(function (event) {
+                var str = $(this).val();
+                var tagtext = '';
+                var keynum = (event.keyCode ? event.keyCode : event.which);
+                {#回车键#}
+                console.log(keynum);
+                if(keynum === 13) {
+                    if (!str){
+                        return false;
+                    }
+                    $(this).before("<span class=\"badge badge-info\">" +
+                                    str +
+                                    "<span data-role=\"remove\"></span>" +
+                                    "</span>");
+                    tagtext = '';
+                    $(".badge.badge-info").each(function(){
+                        var txt = $(this).text();
+                        txt = txt.replace(/(^\s*)|(\s*$)/g, "");
+                        if(!tagtext&&tagtext === ''){
+                            tagtext = txt
+                        }else{
+                            tagtext += ',' + txt
+                        }
+                    });
+                    $("#tagsinputval").attr('value', tagtext);
+                    $(this).val("")
+                }
+                {#删除键#}
+                if(keynum === 8){
+                    {#console.log($(".badge").length);#}
+                    if(!str){
+                        $(".badge:last").remove();
+                        {#objs.prop("LastChild").remove();#}
+                        tagtext = '';
+                        var objs = $(".badge");
+                        objs.each(function(){
+                            var txt = $(this).text();
+                            txt = txt.replace(/(^\s*)|(\s*$)/g, "");
+                            if(!tagtext&&tagtext === ''){
+                                tagtext = txt
+                            }else{
+                                tagtext += ',' + txt
+                            }
+                        });
+                        $("#tagsinputval").attr('value', tagtext)
+                    }
+                }
+            });
+        </script>
+    </div>
+
+{% endmacro %}

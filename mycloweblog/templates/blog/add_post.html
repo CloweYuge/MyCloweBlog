@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'card/_edit_tag.html' import tag_card with context %}
 
 {% block title %}发布文章{% endblock %}
 
@@ -9,29 +10,60 @@
 
 {% block content %}
 {#    <div class="row justify-content-md-center">#}
-        <div class="page-header">
-            <h1>发布文章</h1>
-        </div>
+{#        <div class="page-header">#}
+{#            <h1>发布文章</h1>#}
+{#        </div>#}
         <div class="row">
             <form action="{{ url_for('blog.add_post') }}" method="post" style="width: 100%">
-                <div class="col-sm-9">
+                <div class="col-sm-4 float-right" style="margin-top: 32px;">
+                    {{ tag_card() }}
+                </div>
+                <div class="col-sm-8">
 {#                    {{ render_field(form.title) }}#}
                     <div class="form-group required">
                         <label class="form-control-label" for="title">标题</label>
                         <input class="form-control" id="title" name="title" required="" type="text" value="">
                     </div>
+                    <div class="card bg-light mb-3 w-100">
+                        <div class="card-body" style="padding: 0.25rem">
+                            <div id="form">
+                                <div class="btn-group">
+                                    <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle" type="button" id="dmbutton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        板块
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" fid="1">技术</a>
+                                        <a class="dropdown-item" href="#" fid="2">游戏</a>
+                                        <a class="dropdown-item" href="#" fid="3">等等</a>
+                                    </div>
+                                </div>
+                                <div class="btn-group">
+                                    <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle float-right" type="button" id="dmbutton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span fid="">分类</span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" fid="1">技术</a>
+                                        <a class="dropdown-item" href="#" fid="2">游戏</a>
+                                        <a class="dropdown-item" href="#" fid="3">等等</a>
+                                    </div>
+
+                                </div>
+                                <script>
+                                    $(".btn-group .dropdown-menu a").click(function () {
+                                        var t = $(this).text();
+                                        var f = $(this).attr("fid");
+                                        console.log(t, f);
+                                        $(this).parent().siblings().html("<span fid='" + f + "'>" + t + "</span>")
+                                    })
+                                </script>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-{#                <div class="col-sm-3 float-right" style="margin-top: 2.5%">#}
-{#                    <div class="card bg-light mb-3 w-100">#}
-{#                        <div class="card-body">#}
-{#                            <div id="form">#}
-{#                                {{ form.csrf_token }}#}
-{#                                {{ render_field(form.category) }}#}
-{#                                {{ render_field(form.submit, class='btn btn-success btn-sm') }}#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
+{#                <div class="col-md-3">#}
+{##}
 {#                </div>#}
+
                 <div class="col-sm">
 {#                    {{ render_field(form.body) }}#}
                     <div id="mdeditor">
@@ -39,9 +71,6 @@
                         <textarea aria-label="mdeditor" style="display:none;">### Hello Editor.md !</textarea>
                     </div>
                 </div>
-{#                <div>#}
-{##}
-{#                </div>#}
             </form>
         </div>
 {#    </div>#}
@@ -54,7 +83,10 @@
         $(function() {
             var editor = editormd("mdeditor", {
                 {#width: "100%",#}
-                height: "calc(650px)",
+                height: "650px",
+                imageUpload: true,
+                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/admin/content/img_up", //文件提交请求路径
                 // markdown: "xxxx",     // 设置内容dynamic set Markdown text
                 path : "{{ url_for('static', filename='mdeditor/lib/') }}"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
