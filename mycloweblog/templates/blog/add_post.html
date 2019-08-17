@@ -32,32 +32,73 @@
                         <div class="card-body" style="padding: 0.25rem">
                             <div id="form">
                                 <div class="btn-group">
+                                    <select name="plate_id" style="display: none;">
+                                        <option value="0">板块</option>
+                                    </select>
                                     <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle" type="button" id="dmbutton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         板块
                                     </button>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu" id="plate">
                                         <a class="dropdown-item" href="#" fid="1">技术</a>
                                         <a class="dropdown-item" href="#" fid="2">游戏</a>
                                         <a class="dropdown-item" href="#" fid="3">等等</a>
                                     </div>
                                 </div>
-                                <div class="btn-group">
-                                    <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle float-right" type="button" id="dmbutton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span fid="">分类</span>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" fid="1">技术</a>
-                                        <a class="dropdown-item" href="#" fid="2">游戏</a>
-                                        <a class="dropdown-item" href="#" fid="3">等等</a>
-                                    </div>
 
+                                <div class="btn-group" {% if not categorys %}style="display: none"{% endif %}>
+                                    <select name="category_id" style="display: none;">
+                                        <option value="0">分类</option>
+                                    </select>
+                                    <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle float-right" type="button" id="dmbutton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span fid="0">分类</span>
+                                    </button>
+                                    <div class="dropdown-menu" id="category">
+                                        {% for c in categorys %}
+                                        <a class="dropdown-item" href="#" fid="{{ c.id }}">{{ c.name }}</a>
+                                        {% endfor %}
+                                    </div>
                                 </div>
+
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button class="btn btn-outline-secondary btn-sm float-right">
+                                    <span class="oi oi-x"></span>发布文章
+                                </button>
                                 <script>
                                     $(".btn-group .dropdown-menu a").click(function () {
                                         var t = $(this).text();
                                         var f = $(this).attr("fid");
                                         console.log(t, f);
-                                        $(this).parent().siblings().html("<span fid='" + f + "'>" + t + "</span>")
+                                        $(this).parent().siblings('button').html("<span fid='" + f + "'>" + t + "</span>");
+                                        $(this).parent().siblings('select').html("<option value='" + f + "'>" + t + "</option>")
+                                    });
+
+                                    $("#plate a").click(function () {
+                                        var pid = $(this).attr("fid");
+                                        if(!pid && pid === '0'){
+                                            return false;
+                                        }
+                                        var Name = [];
+                                        var Id = [];
+                                        $.ajax({
+                                            url: "{{ url_for("blog.get_plate_category") }}",
+                                            type: "get",
+                                            data: {
+                                                pid: pid
+                                            },
+                                            success: function (result) {
+                                                if(result.status === 'ok'){
+                                                    var obj = $('#category');
+                                                    obj.children().remove();
+                                                    Name = result.info['names'];
+                                                    Id = result.info['ids'];
+                                                    for (var d = 0; d < Name.length; d++) {
+                                                        {#console.log(cName, cId);#}
+                                                        obj.append('<a class="dropdown-item" href="#" fid="' + Id[d] + '">' + Name[d] + '</a>');
+                                                    }
+                                                    obj.parent().show()
+                                                }
+                                            }
+                                        })
                                     })
                                 </script>
                             </div>
@@ -85,6 +126,19 @@
     {{ super() }}
     <script src="{{ url_for('static', filename='mdeditor/editormd.min.js') }}"></script>
     <script type="text/javascript">
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                }
+            },
+            success: function (jsonr) {
+                if (jsonr.status === 'error'){
+
+                }
+            }
+        });
+
         $(function() {
             var editor = editormd("mdeditor", {
                 {#width: "100%",#}
@@ -92,6 +146,7 @@
                 {#style: "border-radius: .25rem;",#}
                 imageUpload: true,
                 imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+
                 imageUploadURL : "/admin/content/img_up", //文件提交请求路径
                 // markdown: "xxxx",     // 设置内容dynamic set Markdown text
                 path : "{{ url_for('static', filename='mdeditor/lib/') }}"  // Autoload modules mode, codemirror, marked... dependents libs path

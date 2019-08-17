@@ -23,8 +23,7 @@ class Admin(db.Model, UserMixin):
     about = db.Column(db.Text)
 
     # 文章
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'))
-    admin_blogs = db.relationship('Blog', back_populates='admin_blog', foreign_keys=[blog_id])
+    admin_blogs = db.relationship('Blog', back_populates='admin_blog')
 
     def __init__(self, **kwargs):
         super(Admin, self).__init__(**kwargs)
@@ -50,6 +49,8 @@ class Plate(db.Model):
 
     blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'))
     plate_blogs = db.relationship('Blog', back_populates='plate_blog', foreign_keys=[blog_id])
+    # 分类
+    plate_categorys = db.relationship('Category', back_populates='plate_category')
 
 
 class Category(db.Model):
@@ -60,8 +61,11 @@ class Category(db.Model):
     name = db.Column(db.String(15))
     mark = db.Column(db.Text)
 
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'))
-    category_blogs = db.relationship('Blog', back_populates='category_blog', foreign_keys=[blog_id])
+    # 文章
+    category_blogs = db.relationship('Blog', back_populates='category_blog')
+    # 板块
+    plate_id = db.Column(db.SmallInteger, db.ForeignKey('plate.id'))
+    plate_category = db.relationship('Plate', back_populates='plate_categorys', foreign_keys=[plate_id])
 
 
 # 文章与标签多对多表
@@ -77,30 +81,49 @@ class Blog(db.Model):
     add_time = db.Column(db.Integer, default=shijc_now())
     up_time = db.Column(db.Integer, default=shijc_now())
     title = db.Column(db.String(100), nullable=False)
-    photos = db.Column(db.LargeBinary(length=16777210))
+    # photos = db.Column(db.LargeBinary(length=16777210))
     content = db.Column(db.Text)
 
     look_count = db.Column(db.Integer, default=0)
 
     # 发布人
-    admin_blog = db.relationship('Admin', back_populates='admin_blogs')
+    admin_id = db.Column(db.SmallInteger, db.ForeignKey('admin.id'))
+    admin_blog = db.relationship('Admin', back_populates='admin_blogs', foreign_keys=[admin_id])
     # 评论
     blog_comments = db.relationship('Comment', back_populates='blog_comment')
     # 板块
     plate_blog = db.relationship('Plate', back_populates='plate_blogs')
     # 分类
-    category_blog = db.relationship('Blog', back_populates='category_blogs')
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category_blog = db.relationship('Category', back_populates='category_blogs', foreign_keys=[category_id])
     # 标签
     tags = db.relationship('Tag', secondary=blog_tag, back_populates='blogs')
 
 
 class Photo(db.Model):
     """
-    临时配图
+    图片库，主要用作文章配图
     """
-    id = db.Column(db.SmallInteger, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    # 最大支持15M
     photos = db.Column(db.LargeBinary(length=16777210))
     add_time = db.Column(db.Integer, default=shijc_now())
+    use_count = db.Column(db.SmallInteger, default=0)
+    look_count = db.Column(db.Integer, default=0)
+    # 屏蔽状态
+    status = db.Column(db.Boolean, default=False)
+
+
+class Tool(db.Model):
+    """
+    软件工具
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    ex_url = db.Column(db.String(250))
+    local_url = db.Column(db.String(250))
+    add_time = db.Column(db.Integer, default=shijc_now())
+    use_count = db.Column(db.Integer, default=0)
+    # 屏蔽状态
     status = db.Column(db.Boolean, default=False)
 
 
@@ -129,7 +152,7 @@ class Comment(db.Model):
     comment_yu = db.Column(db.Integer)
     # 文章
     blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'))
-    blog_comment = db.relationship('Blog', back_populates='blog_comment', foreign_keys=[blog_id])
+    blog_comment = db.relationship('Blog', back_populates='blog_comments', foreign_keys=[blog_id])
 
     def __init__(self, **kwargs):
         super(Comment, self).__init__(**kwargs)

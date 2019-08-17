@@ -1,4 +1,27 @@
-{% macro tag_card(tags) %}
+{% macro photo_card(photo) %}
+    <style>
+        .thumbnail {
+            {#display: inline-block;#}
+            display: block;
+            height: auto;
+            max-width: 100%;
+            line-height: 1.428571429;
+            background-color: #ffffff;
+            border-radius: 4px;
+        }
+        .thumbnail img {
+            display: block;
+            height: auto;
+            border-radius: 4px;
+            max-width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+            margin-bottom: 10px;
+            border: 1px solid #e5e5e5;
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
     <figure class="thumbnail">
 {#    点击后跳转页面#}
         <a href="#">
