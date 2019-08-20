@@ -11,13 +11,13 @@
         {% block styles %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css">
 {#            <link rel="stylesheet"#}
-{#              href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'black_swan')) }}"#}
+{#              href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'black_swan')) }}9+-"#}
 {#              type="text/css">#}
 {#            <link rel="stylesheet" href="{{ url_for('static', filename='css/round_icon.css') }}" type="text/css">#}
 {#            <link rel="stylesheet" href="{{ url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css') }}">#}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/all_style.css') }}" type="text/css">
 
-            <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
         {% endblock styles %}
     {% endblock head %}
 </head>
