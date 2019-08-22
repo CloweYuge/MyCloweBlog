@@ -42,6 +42,8 @@
                                         <a class="dropdown-item" href="#" fid="1">技术</a>
                                         <a class="dropdown-item" href="#" fid="2">游戏</a>
                                         <a class="dropdown-item" href="#" fid="3">等等</a>
+                                        <div class="dropdown-divider"></div>
+                                        <input class="" id="add-plate" type="text" placeholder="添加板块">
                                     </div>
                                 </div>
 
@@ -56,9 +58,70 @@
                                         {% for c in categorys %}
                                         <a class="dropdown-item" href="#" fid="{{ c.id }}">{{ c.name }}</a>
                                         {% endfor %}
+                                        <div class="dropdown-divider"></div>
+                                        <input class="" id="add-category" type="text" placeholder="添加分类">
                                     </div>
                                 </div>
-
+                                <script>
+                                    $("#add-plate").keyup(function (event) {
+                                        var obj = $(this);
+                                        var str = obj.val();
+                                        var tagtext = '';
+                                        var keynum = (event.keyCode ? event.keyCode : event.which);
+                                        {#回车键#}
+                                        console.log(keynum);
+                                        if (keynum === 13) {
+                                            if (!str) {
+                                                return false;
+                                            }else{
+                                                $.ajax({
+                                                    url: "{{ url_for('blog.add_plate') }}",
+                                                    type: "post",
+                                                    data: {
+                                                        name: str,
+                                                        csrf_token: csrf_token
+                                                    },
+                                                    success: function (result) {
+                                                        if (result.status === 200){
+                                                            $("#plate .dropdown-divider").before("<a class='dropdown-item' href='#' fid='" +
+                                                                result.info['id'] + "'>"+ result.info['name'] +"</a>");
+                                                            obj.val("")
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+                                    $("#add-category").keyup(function (event) {
+                                        var obj = $(this);
+                                        var str = obj.val();
+                                        var tagtext = '';
+                                        var keynum = (event.keyCode ? event.keyCode : event.which);
+                                        {#回车键#}
+                                        console.log(keynum);
+                                        if (keynum === 13) {
+                                            if (!str) {
+                                                return false;
+                                            }else{
+                                                $.ajax({
+                                                    url: "{{ url_for('blog.add_category') }}",
+                                                    type: "post",
+                                                    data: {
+                                                        name: str,
+                                                        csrf_token: csrf_token
+                                                    },
+                                                    success: function (result) {
+                                                        if (result.status === 200){
+                                                            $("#category .dropdown-divider").before("<a class='dropdown-item' href='#' fid='" +
+                                                                result.info['id'] + "'>"+ result.info['name'] +"</a>");
+                                                            obj.val("")
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                                </script>
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                 <button id="fat-btn" class="btn btn-primary float-right btn-sm" data-loading-text="Loading..."
                                     type="button"> 发布文章
@@ -66,7 +129,8 @@
                                 <script>
                                     $("#fat-btn").click(function(){
                                         console.log("hahha");
-                                        $(this).attr('class', 'btn btn-primary float-right btn-sm disabled').text('Posting...');
+                                        var obj = $(this);
+                                        obj.attr('class', 'btn btn-primary float-right btn-sm disabled').text('Posting...');
                                         var form = $("#new-post").serialize();
                                         $.ajax({
                                             url: '{{ url_for("blog.add_post") }}',
@@ -76,7 +140,8 @@
                                                 if (result.status === 200){
                                                     window.location.href = result.info['url']
                                                 }else{
-                                                    $(this).attr('class', 'btn btn-primary float-right btn-sm').text('发布文章');
+                                                    obj.attr('class', 'btn btn-primary float-right btn-sm').text('发布文章');
+                                                    alert(result.info['msg']);
                                                 }
                                             }
                                         })
@@ -91,7 +156,7 @@
                                     {#    });#}
                                     {# });#}
 
-                                    $(".btn-group .dropdown-menu a").click(function () {
+                                    $(".btn-group .dropdown-menu").on('click', 'a', function () {
                                         var t = $(this).text();
                                         var f = $(this).attr("fid");
                                         console.log(t, f);
@@ -99,13 +164,15 @@
                                         $(this).parent().siblings('select').html("<option value='" + f + "'>" + t + "</option>")
                                     });
 
-                                    $("#plate a").click(function () {
+                                    $("#plate").on('click', 'a', function () {
                                         var pid = $(this).attr("fid");
                                         if(!pid && pid === '0'){
                                             return false;
                                         }
-                                        var Name = [];
                                         var Id = [];
+                                        var Name = [];
+                                        var obj = $('#category');
+                                        obj.parent().show();
                                         $.ajax({
                                             url: "{{ url_for("blog.get_plate_category") }}",
                                             type: "get",
@@ -113,17 +180,17 @@
                                                 pid: pid
                                             },
                                             success: function (result) {
+
                                                 if(result.status === 'ok'){
-                                                    var obj = $('#category');
-                                                    obj.children().remove();
+                                                    obj.children('a').remove();
                                                     Name = result.info['names'];
                                                     Id = result.info['ids'];
                                                     for (var d = 0; d < Name.length; d++) {
                                                         {#console.log(cName, cId);#}
                                                         obj.append('<a class="dropdown-item" href="#" fid="' + Id[d] + '">' + Name[d] + '</a>');
                                                     }
-                                                    obj.parent().show()
                                                 }
+
                                             }
                                         })
                                     })

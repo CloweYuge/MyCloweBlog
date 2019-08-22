@@ -47,8 +47,8 @@ class Plate(db.Model):
     name = db.Column(db.String(15))
     mark = db.Column(db.Text)
 
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'))
-    plate_blogs = db.relationship('Blog', back_populates='plate_blog', foreign_keys=[blog_id])
+    # 文章
+    plate_blogs = db.relationship('Blog', back_populates='plate_blog')
     # 分类
     plate_categorys = db.relationship('Category', back_populates='plate_category')
 
@@ -92,7 +92,8 @@ class Blog(db.Model):
     # 评论
     blog_comments = db.relationship('Comment', back_populates='blog_comment')
     # 板块
-    plate_blog = db.relationship('Plate', back_populates='plate_blogs')
+    plate_id = db.Column(db.Integer, db.ForeignKey('plate.id'))
+    plate_blog = db.relationship('Plate', back_populates='plate_blogs', foreign_keys=[plate_id])
     # 分类
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category_blog = db.relationship('Category', back_populates='category_blogs', foreign_keys=[category_id])
