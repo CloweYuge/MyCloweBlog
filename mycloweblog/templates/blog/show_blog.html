@@ -1,10 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}{{ blog.title }}{% endblock %}
+
+{#<link rel="stylesheet" href="editormd/css/editormd.preview.css" />#}
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for("static", filename="mdeditor/css/editormd.preview.css") }}" />
+{% endblock styles %}
+
+{% block content %}
+  <style>
+  .tagmap{
+    font-size: 2px;
+  }ul{
+    padding-left: 10px;
+     }
+  </style>
+  <div class="row justify-content-md-center">
+{#        左#}
+    <div class="col-md-3 content-left" style="display: none">
+
+    </div>
+{#        中#}
+    <div class="col-md-8 content-center">
+
+      <div id="test-markdown-view">
+        <!-- Server-side output Markdown text -->
+        <textarea style="display:none;">{{ blog.content }}</textarea>
+      </div>
+    </div>
+{#        右#}
+    <div class="col-md-3 content-right tagmap" id="tagmap">
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+{# <script src="jquery.min.js"></script>#}
+  <script src="{{ url_for('static', filename='mdeditor/editormd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='mdeditor/lib/marked.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='mdeditor/lib/prettify.min.js') }}"></script>
+  <script type="text/javascript">
+    $(function() {
+      var testView = editormd.markdownToHTML("test-markdown-view", {
+        {#tocContainer: "#tagmap",#}
+        {#searchReplace: true,#}
+        {#taskList: true,#}
+        tocm: true,         // Using [TOCM]
+        {#tocDropdown: true,#}
+        {#tocTitle: '{{ blog.title }}' + "的目录",#}
+            {#markdown : , // Also, you can dynamic set Markdown text#}
+            // htmlDecode : true,  // Enable / disable HTML tag encode.
+            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        });
+    });
+  </script>
+{% endblock %}

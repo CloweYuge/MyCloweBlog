@@ -36,7 +36,7 @@
 {#                板块列表#}
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">技术</a>
+                        <a class="nav-link" href="{{ url_for("blog.blog_show") }}">技术</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">小工具</a>
@@ -49,7 +49,7 @@
                     </li>
                 </ul>
                 <div class="navbar-nav ml-auto">
-    {#                {% if current_user.is_authenticated %}#}
+                    {% if current_user.is_authenticated %}
                     <div class="dropdown nav-item">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                         aria-expanded="false">
@@ -77,24 +77,23 @@
                         </div>
                     </div>
 
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">
-                                发布
-                                <span class="caret"></span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-    {#                            {% if current_user.can('UPPOST') %}#}
-                                <a class="dropdown-item" href="{{ url_for("blog.add_post") }}">文章</a>
-    {#                            {% endif %}#}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            发布
+                            <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+{#                            {% if current_user.can('UPPOST') %}#}
+                            <a class="dropdown-item" href="{{ url_for("blog.add_post") }}">文章</a>
+{#                            {% endif %}#}
 {#                                <a class="dropdown-item" href="#">图片</a>#}
                         </div>
                     </div>
-    {#                {% endif %}#}
+                    {% endif %}
                 </div>
             </div>
         </div>
-
     </nav>
 {% endblock nav %}
 <div class="video-bg">

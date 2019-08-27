@@ -1,34 +1,35 @@
-{% macro photo_card(photo) %}
+{% macro photo_card(url, moveto) %}
     <style>
         .thumbnail {
-            {#display: inline-block;#}
-            display: block;
-            height: auto;
-            max-width: 100%;
-            line-height: 1.428571429;
-            background-color: #ffffff;
-            border-radius: 4px;
+          {#display: inline-block;#}
+          display: block;
+          height: auto;
+          max-width: 100%;
+          line-height: 1.428571429;
+          background-color: #ffffff;
+          border-radius: 4px;
+          margin: 0;
         }
         .thumbnail img {
-            display: block;
-            height: auto;
-            border-radius: 4px;
-            max-width: 100%;
-            margin-right: auto;
-            margin-left: auto;
-            margin-bottom: 10px;
-            border: 1px solid #e5e5e5;
-            -webkit-transition: all 0.2s ease-in-out;
-            transition: all 0.2s ease-in-out;
+          display: block;
+          height: auto;
+          border-radius: 4px;
+          max-width: 100%;
+          margin-right: auto;
+          margin-left: auto;
+          {#margin-bottom: 10px;#}
+          {#border: 1px solid #e5e5e5;#}
+          -webkit-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
         }
     </style>
     <figure class="thumbnail">
 {#    点击后跳转页面#}
-        <a href="#">
-            <img width="750" height="566" src="#" data-original="#" class="lazy attachment-full size-full wp-post-image" alt="" style="display: block;">
+        <a href="{{ moveto }}">
+            <img width="750" height="566" src="{{ url }}" data-original="{{ url }}" class="lazy attachment-full size-full wp-post-image" alt="" style="display: block;">
             <noscript>
 {#                如果浏览器不支持懒加载的话就使用普通图片标签#}
-                <img width="750" height="566" src="#" class="attachment-full size-full wp-post-image" alt="" />
+                <img width="750" height="566" src="{{ url }}" class="attachment-full size-full wp-post-image" alt="" />
             </noscript>
         </a>
     </figure>

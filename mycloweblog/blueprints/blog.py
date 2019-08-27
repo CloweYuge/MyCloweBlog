@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, current_app, flash, redirect, url_for, jsonify
+import pickle
+from flask import Blueprint, render_template, request, current_app, flash, redirect, url_for, jsonify, Response
 from flask_login import login_required, current_user
 from mycloweblog.models import Blog, Category, Comment, Tag, Admin, Photo, Plate
 # from mycloweblog.forms.admin import EditProfileAdminForm
@@ -12,14 +13,19 @@ blog_bp = Blueprint('blog', __name__)
 
 @blog_bp.route("/")
 def index():
-    return render_template("blog/index.html")
+    blogs = Blog.query.all()
+    return render_template("blog/index.html", blogs=blogs)
 
 
+@login_required
 @blog_bp.route("/add_post", methods=['POST', 'GET'])
 def add_post():
+    # print(request.args, request.form)
     if request.method == 'GET':
-        mod = request.args.get("mod", 0, type=int)
-        return render_template("blog/add_post.html")
+        # mod = request.args.get("mod", 0, type=int)
+        plates = Plate.query.all()
+        categorys = Category.query.all()
+        return render_template("blog/add_post.html", plates=plates, categorys=categorys)
     elif request.method == 'POST':
         print(request.form)
         title = request.form.get("title", '')
@@ -27,6 +33,7 @@ def add_post():
         category_id = request.form.get("category_id", 0, type=int)
         md_doc = request.form.get("mdeditor-markdown-doc", '')
         taginput = request.form.get("tagsinput", '')
+        h_content = request.form.get("h_content", '')
         if title == '' or plate_id == 0 or category_id == 0 or md_doc == '':
             if title == '':
                 return jsonify(status=400, info={'msg': '请填写标题！'})
@@ -46,7 +53,9 @@ def add_post():
             plate = Plate.query.get("plate_id")
             category = Category.query.get("category_id")
             # 建立新文章
-            blog = Blog(admin_blog=current_user, title=title, content=md_doc, plate_blog=plate, category_blog=category)
+            # 这特么还是游客账户，没法绑定，得先做登录
+            blog = Blog(admin_blog=current_user, title=title, content=md_doc, h_content=h_content, plate_blog=plate,
+                        category_blog=category)
             if len(tags) > 0:
                 # 已存在的标签
                 tags_db = Tag.query.filter(Tag.name.in_(tags)).all()
@@ -62,6 +71,7 @@ def add_post():
             return jsonify(status=400, info={'msg': '发生错误：' + str(err)})
         else:
             db.session.commit()
+            # blog.get_photo()
             return jsonify(status=200, info={'url': url_for("blog.blog_show", blog_id=blog.id)})
     return redirect_back()
 
@@ -69,10 +79,11 @@ def add_post():
 @blog_bp.route("/blog_show")
 def blog_show():
     print(request.args)
-    blog = Blog.query.get(request.args.get("blog_id"))
+    blog = Blog.query.get(request.args.get("blog_id", 0, type=int))
     if blog:
         return render_template("blog/show_blog.html", blog=blog)
-    return render_template("errors/404.html")
+
+    return render_template("errors/404.html", msg="未找到文章信息！")
 
 
 @blog_bp.route("/add_plate", methods=['POST'])
@@ -141,8 +152,27 @@ def img_up():
     img = request.files.get("editormd-image-file", None)
     if img is None:
         return jsonify(success=3, message="上传失败，无图像数据！", url="")
+    photo = Photo(photos=img.read())
+    db.session.add(photo)
+    db.session.commit()
+    url = url_for("blog.blog_img", imgid=photo.id, _external=True)
+    return jsonify(success=1, message="上传成功！", url=url)
 
-    return jsonify(success=1, message="上传成功！", url="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_"
-                                                   "10000&sec=1567219745&di=a04552af92d7766423ad06e73312c533&imgtype="
-                                                   "jpg&er=1&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F2"
-                                                   "01508%2F18%2F20150818195900_kvAjB.jpeg")
+
+@blog_bp.route("/blog_img")
+def blog_img():
+    print(request.args)
+    img_id = request.args.get("imgid", None)
+    if img_id:
+        photo = Photo.query.get(img_id)
+        if photo:
+            img = photo.photos
+            # byte_io = BytesIO()
+            # img.save(byte_io, 'PNG')
+            # byte_io.seek(0)
+
+            return Response(img, mimetype="image/jpeg")
+            # return img
+        return url_for('static', filename='images/upload.png')
+    return url_for('static', filename='images/upload.png')
+

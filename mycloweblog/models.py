@@ -1,6 +1,7 @@
 import os
+import pickle
 from mycloweblog.extensions import db
-from flask import current_app
+from flask import current_app, url_for
 from flask_login import UserMixin
 from flask_avatars import Identicon
 import time
@@ -60,6 +61,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15))
     mark = db.Column(db.Text)
+    fast = db.Column(db.Boolean, default=False)
 
     # 文章
     category_blogs = db.relationship('Blog', back_populates='category_blog')
@@ -83,6 +85,7 @@ class Blog(db.Model):
     title = db.Column(db.String(100), nullable=False)
     # photos = db.Column(db.LargeBinary(length=16777210))
     content = db.Column(db.Text)
+    h_content = db.Column(db.Text)
 
     look_count = db.Column(db.Integer, default=0)
 
@@ -92,13 +95,28 @@ class Blog(db.Model):
     # 评论
     blog_comments = db.relationship('Comment', back_populates='blog_comment')
     # 板块
-    plate_id = db.Column(db.Integer, db.ForeignKey('plate.id'))
+    plate_id = db.Column(db.SmallInteger, db.ForeignKey('plate.id'))
     plate_blog = db.relationship('Plate', back_populates='plate_blogs', foreign_keys=[plate_id])
     # 分类
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category_blog = db.relationship('Category', back_populates='category_blogs', foreign_keys=[category_id])
     # 标签
     tags = db.relationship('Tag', secondary=blog_tag, back_populates='blogs')
+
+    @property
+    def get_photo(self):
+        content = self.content
+        first = content.find('![')
+        if first >= 0:
+            # 取首图
+            haide = content.find('(', first)
+            end = content.find(')', first)
+            url = content[haide + 1: end]
+            print(first, end, url)
+            return url
+        else:
+            # 可以在此设置随机的图片地址
+            return "#"
 
 
 class Photo(db.Model):
@@ -113,6 +131,13 @@ class Photo(db.Model):
     look_count = db.Column(db.Integer, default=0)
     # 屏蔽状态
     status = db.Column(db.Boolean, default=False)
+
+    # # @property
+    # def get_photo(self):
+    #     if self.photos:
+    #         return pickle.loads(self.photos)
+    #     else:
+    #         return url_for('static', filename='images/upload.png')
 
 
 class Tool(db.Model):

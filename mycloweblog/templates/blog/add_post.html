@@ -39,9 +39,9 @@
                                         板块
                                     </button>
                                     <div class="dropdown-menu" id="plate">
-                                        <a class="dropdown-item" href="#" fid="1">技术</a>
-                                        <a class="dropdown-item" href="#" fid="2">游戏</a>
-                                        <a class="dropdown-item" href="#" fid="3">等等</a>
+                                        {% for p in plates %}
+                                        <a class="dropdown-item" href="#" fid="{{ p.id }}">{{ p.name }}</a>
+                                        {% endfor %}
                                         <div class="dropdown-divider"></div>
                                         <input class="" id="add-plate" type="text" placeholder="添加板块">
                                     </div>
@@ -96,6 +96,7 @@
                                         var obj = $(this);
                                         var str = obj.val();
                                         var tagtext = '';
+                                        var plate_id = $("select[name=plate_id]").val();
                                         var keynum = (event.keyCode ? event.keyCode : event.which);
                                         {#回车键#}
                                         console.log(keynum);
@@ -108,6 +109,7 @@
                                                     type: "post",
                                                     data: {
                                                         name: str,
+                                                        plate_id: plate_id,
                                                         csrf_token: csrf_token
                                                     },
                                                     success: function (result) {
@@ -132,6 +134,7 @@
                                         var obj = $(this);
                                         obj.attr('class', 'btn btn-primary float-right btn-sm disabled').text('Posting...');
                                         var form = $("#new-post").serialize();
+                                        form = form + "&h_content=" + editor.getHTML();
                                         $.ajax({
                                             url: '{{ url_for("blog.add_post") }}',
                                             type: 'post',
@@ -180,14 +183,13 @@
                                                 pid: pid
                                             },
                                             success: function (result) {
-
                                                 if(result.status === 'ok'){
                                                     obj.children('a').remove();
                                                     Name = result.info['names'];
                                                     Id = result.info['ids'];
                                                     for (var d = 0; d < Name.length; d++) {
                                                         {#console.log(cName, cId);#}
-                                                        obj.append('<a class="dropdown-item" href="#" fid="' + Id[d] + '">' + Name[d] + '</a>');
+                                                        obj.children('div').before('<a class="dropdown-item" href="#" fid="' + Id[d] + '">' + Name[d] + '</a>');
                                                     }
                                                 }
 
@@ -206,7 +208,7 @@
 
                 <div class="col-sm">
 {#                    {{ render_field(form.body) }}#}
-                    <div id="mdeditor" style="border-radius: .25rem;">
+                    <div id="mdeditor" name="editormd"  style="border-radius: .25rem;">
 {#                        <label class="form-control-label" for="title">标题</label>#}
                         <textarea aria-label="mdeditor" style="display:none;">### Hello Editor.md !</textarea>
                     </div>
@@ -220,6 +222,8 @@
   {{ super() }}
   <script src="{{ url_for('static', filename='mdeditor/editormd.min.js') }}"></script>
   <script type="text/javascript">
+    var editor;
+
     $.ajaxSetup({
       beforeSend: function(xhr, settings) {
         if (!/^(GET|HEAD|OPTIONS|TRACE|POST)$/i.test(settings.type) && !this.crossDomain) {
@@ -228,20 +232,23 @@
       },
       success: function (jsonr) {
         if (jsonr.status === 'error'){
-
+          alert(jsonr.info['msg'])
         }
       }
     });
 
     $(function() {
-      var editor = editormd("mdeditor", {
+      editor = editormd("mdeditor", {
         {#width: "100%",#}
         height: "650px",
-        {#开启图片上传功能#}
+        // 保存 HTML 到 Textarea,不开启将导致无法getHTML
+        saveHTMLToTextarea : true,
+        searchReplace : true,
+        // 开启图片上传功能
         imageUpload: true,
         imageFormats   : ["jpg", "jpeg", "gif", "png"],
         imageUploadURL : "{{ url_for("blog.img_up") }}", //文件提交请求路径
-        // markdown: "xxxx",     // 设置内容dynamic set Markdown text
+        {#markdown: 'md',     // 设置内容dynamic set Markdown text#}
         path : "{{ url_for('static', filename='mdeditor/lib/') }}"  // Autoload modules mode, codemirror, marked... dependents libs path
       });
     });

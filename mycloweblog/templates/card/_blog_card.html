@@ -1,25 +1,30 @@
 {% from 'card/_photo_card.html' import photo_card with context %}
 
 {% macro blog_card(blog) %}
-    <style>
-        .card-body{
-            padding: 0.5rem;
-        }
-    </style>
+  <style>
+  .card-header{
+    border-bottom:0;
+  }
+  .card-body{
+    padding: 0;
+  }
+  .card-footer{
+    border-top: 0;
+  }
+  </style>
 
     <div class="card mb-3 w-100 bg-light">
 {#        头部#}
         <div class="card-header">
-            <p class="card-text">标题</p>
-            <a class="thumbnail" href="#"></a>
+            <p class="card-text">{{ blog.title }}</p>
+            <a class="thumbnail" href="{{ url_for("blog.blog_show", blog_id=blog.id) }}"></a>
             <div class="" align="center">
+              {{ blog.h_content|striptags|truncate }}
 {#                文章内容简介#}
             </div>
-
         </div>
-
         <div class="card-body">
-            {{ photo_card() }}
+            {{ photo_card(blog.get_photo, url_for("blog.blog_show", blog_id=blog.id)) }}
         </div>
 
 
@@ -30,11 +35,11 @@
                 0
             </span>&nbsp;&nbsp;
 {#            评论#}
-            <span class="oi oi-comment-square"></span> 0
+            <span class="oi oi-comment-square"></span> {{ blog.blog_comments|count }}
             <div class="float-right">
 {#                阅读全文#}
                 <button class="hide
-                 btn btn-outline-secondary btn-sm uncollect-btn" data-href="/ajax/uncollect/26" data-id="26">
+                 btn btn-outline-secondary btn-sm uncollect-btn" data-href="{{ url_for("blog.blog_show", blog_id=blog.id) }}" data-id="{{ blog.id }}">
                     <span class="oi oi-x"></span>阅读全文
                 </button>
             </div>

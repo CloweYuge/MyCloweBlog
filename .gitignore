@@ -12,6 +12,7 @@ __pycache__/
 .idea
 /.idea/
 .idea/
+migrations/
 build/
 develop-eggs/
 dist/

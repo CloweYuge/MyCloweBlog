@@ -95,7 +95,7 @@ class BaseConfig(object):           # 公共的配置，在任何环境都有效
 
 class DevelopmentConfig(BaseConfig):
     # SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'data-dev.db')
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:mysql123@localhost:3306/clowelog?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456.@192.168.0.188:3306/testsql?charset=utf8'
 
 
 class TestingConfig(BaseConfig):
