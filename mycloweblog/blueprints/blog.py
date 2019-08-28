@@ -50,8 +50,8 @@ def add_post():
         else:
             tags = []
         try:
-            plate = Plate.query.get("plate_id")
-            category = Category.query.get("category_id")
+            plate = Plate.query.get(plate_id)
+            category = Category.query.get(category_id)
             # 建立新文章
             # 这特么还是游客账户，没法绑定，得先做登录
             blog = Blog(admin_blog=current_user, title=title, content=md_doc, h_content=h_content, plate_blog=plate,
@@ -62,10 +62,11 @@ def add_post():
                 # 已存在的标签名
                 tags_name = [t.name for t in tags_db]
                 # 生成不存在的标签
-                tags_new = [Tag(name=t) for t in tags if tags not in tags_name]
+                tags_new = [Tag(name=t) for t in tags if t not in tags_name]
                 [db.session.add(t) for t in tags_new]
                 # 关联到blog
                 blog.tags = tags_new + tags_db
+                print(tags_db, tags_name, tags_new)
             db.session.add(blog)
         except Exception as err:
             return jsonify(status=400, info={'msg': '发生错误：' + str(err)})

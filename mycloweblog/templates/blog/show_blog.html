@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'card/_catalog_card.html' import catalog_card with context %}
 
 {% block title %}{{ blog.title }}{% endblock %}
 
@@ -10,12 +11,40 @@
 
 {% block content %}
   <style>
-  .tagmap{
-    font-size: 2px;
-  }ul{
-    padding-left: 10px;
-     }
+  .content-center{
+    padding-right: 0;
+    padding-left: 0;
+    background-color: rgba(255,255,255,0.7);
+    border-radius:5px 5px 0 0;
+  }
+  .blog_header{
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 20px;
+  }
+  .shuxian{
+      margin-left: 5px;
+      margin-right: 5px;
+  }
+  .blog_info{
+    font-size: smaller;
+  }
   </style>
+{#  <div class="row justify-content-md-center">#}
+{#    <div class="col-md-8 content-center">#}
+{#      <h1>{{ blog.title }}</h1>#}
+{#    </div>#}
+{#    <div class="col-md-3 content-right">#}
+{#      <small>#}
+{#        分类:#}
+{#        <a href="{{ url_for("blog.blog_show", blog_id=blog.id) }}">#}
+{#          {{ blog.category_blog.name }}#}
+{#        </a><br>#}
+{#        发布时间:{{ blog.add_time }}#}
+{#        最后更新时间：{{ blog.up_time }}#}
+{#      </small>#}
+{#    </div>#}
+{#  </div>#}
   <div class="row justify-content-md-center">
 {#        左#}
     <div class="col-md-3 content-left" style="display: none">
@@ -23,15 +52,38 @@
     </div>
 {#        中#}
     <div class="col-md-8 content-center">
+      <div class="blog_header">
+        <h1>{{ blog.title }}</h1>
+        <div class="blog_info">
+          分类:
+          <a href="{{ url_for("blog.blog_show", blog_id=blog.id) }}">
+            {{ blog.plate_blog.name }}
+          </a>><a href="{{ url_for("blog.blog_show", blog_id=blog.id) }}">
+            {{ blog.category_blog.name }}
+          </a>
+          <br>
+          <div>
+            发布于: {{ blog.add_time }}
+            <span class="shuxian">|</span>
+            {% if blog.up_time %}
+            最近修改: {{ blog.up_time }}
+            <span class="shuxian">|</span>
+            {% endif %}
+            <a href="#">评论数: {{ blog.blog_comments|count }}</a>
+            <span class="shuxian">|</span>
+            <a>字符量: {{ blog.h_content|striptags|length }}</a>
+          </div>
 
+        </div>
+      </div>
       <div id="test-markdown-view">
         <!-- Server-side output Markdown text -->
         <textarea style="display:none;">{{ blog.content }}</textarea>
       </div>
     </div>
 {#        右#}
-    <div class="col-md-3 content-right tagmap" id="tagmap">
-
+    <div class="col-md-4 content-right">
+      {{ catalog_card() }}
     </div>
   </div>
 
@@ -46,15 +98,12 @@
   <script type="text/javascript">
     $(function() {
       var testView = editormd.markdownToHTML("test-markdown-view", {
-        {#tocContainer: "#tagmap",#}
-        {#searchReplace: true,#}
-        {#taskList: true,#}
-        tocm: true,         // Using [TOCM]
+        tocContainer: "#catalog",   // 自定义容器目录，不能与下面同时开启
+        {#tocm: true,         // Using [TOCM] 页面内目录#}
         {#tocDropdown: true,#}
-        {#tocTitle: '{{ blog.title }}' + "的目录",#}
-            {#markdown : , // Also, you can dynamic set Markdown text#}
-            // htmlDecode : true,  // Enable / disable HTML tag encode.
-            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        {#markdown : , // Also, you can dynamic set Markdown text#}
+        // htmlDecode : true,  // Enable / disable HTML tag encode.
+        // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
         });
     });
   </script>

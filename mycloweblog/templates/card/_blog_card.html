@@ -13,7 +13,7 @@
   }
   </style>
 
-    <div class="card mb-3 w-100 bg-light">
+    <div class="card mb-3 w-100 ff-ban">
 {#        头部#}
         <div class="card-header">
             <p class="card-text">{{ blog.title }}</p>
@@ -38,10 +38,10 @@
             <span class="oi oi-comment-square"></span> {{ blog.blog_comments|count }}
             <div class="float-right">
 {#                阅读全文#}
-                <button class="hide
-                 btn btn-outline-secondary btn-sm uncollect-btn" data-href="{{ url_for("blog.blog_show", blog_id=blog.id) }}" data-id="{{ blog.id }}">
+                <a class="hide
+                 btn btn-outline-secondary btn-sm" href="{{ url_for("blog.blog_show", blog_id=blog.id) }}">
                     <span class="oi oi-x"></span>阅读全文
-                </button>
+                </a>
             </div>
         </div>
     </div>
