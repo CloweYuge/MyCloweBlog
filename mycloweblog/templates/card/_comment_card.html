@@ -1,0 +1,66 @@
+{% macro commont_card(blog) %}
+  <style>
+  .add_msg{
+    padding: 20px;
+  }
+  .editor-header{
+    border: 1px solid #ccc;
+  }
+  .editor-body{
+    height: 200px;
+    border: 1px solid #ccc;
+  }
+  </style>
+  <div class="comment">
+    <h3>
+      秀儿大会：
+    </h3>
+    <div class="list_msg">
+      <div class="reply">
+        <div class="msg">
+          <img src="{{ url_for("static", filename="images/logo.jpg") }}">
+          <span class="name">斜杠青年</span>
+          <p>
+            <i class="msg_input"></i>怎么不和我说话
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="add_msg">
+      <div id="editor-header" class="editor-header"></div>
+      <div id="editor-body" class="editor-body"><p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p></div>
+      <div id="editor-footer"></div>
+    </div>
+  </div>
+  <script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+  <script>
+    var E = window.wangEditor;
+    var editor = new E('#editor-header', '#editor-body');
+    editor.customConfig.menus = [
+      {#'head',  // 标题#}
+      {#'bold',  // 粗体#}
+      'fontSize',  // 字号
+      {#'fontName',  // 字体#}
+      {#'italic',  // 斜体#}
+      'underline',  // 下划线
+      'strikeThrough',  // 删除线
+      {#'foreColor',  // 文字颜色/#}
+      {#'backColor',  // 背景颜色#}
+      'link',  // 插入链接
+      'list',  // 列表
+      {#'justify',  // 对齐方式#}
+      {#'quote',  // 引用#}
+      'emoticon',  // 表情
+      'image',  // 插入图片
+      {#'table',  // 表格#}
+      {#'video',  // 插入视频#}
+      'code',  // 插入代码
+      'undo',  // 撤销
+      {#'redo'  // 重复#}
+    ];
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+
+
+  </script>
+{% endmacro %}

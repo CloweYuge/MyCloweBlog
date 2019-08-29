@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% from 'card/_catalog_card.html' import catalog_card with context %}
+{% from 'card/_comment_card.html' import commont_card with context %}
 
 {% block title %}{{ blog.title }}{% endblock %}
 
@@ -80,6 +81,7 @@
         <!-- Server-side output Markdown text -->
         <textarea style="display:none;">{{ blog.content }}</textarea>
       </div>
+      {{ commont_card(blog) }}
     </div>
 {#        右#}
     <div class="col-md-4 content-right">
