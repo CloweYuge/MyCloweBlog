@@ -13,15 +13,18 @@
 {% block content %}
   <style>
   .content-center{
-    padding-right: 0;
-    padding-left: 0;
-    background-color: rgba(255,255,255,0.7);
+    {#padding-right: 0;#}
+    {#padding-left: 0;#}
+    {#background-color: rgba(255,255,255,0);#}
     border-radius:5px 5px 0 0;
   }
   .blog_header{
     padding-right: 25px;
     padding-left: 25px;
     padding-top: 20px;
+    background-color: #ffffff;
+    border-radius: 15px 15px 0 0;
+      box-shadow: 0 0 5px #c2c2c2;
   }
   .shuxian{
       margin-left: 5px;
@@ -29,6 +32,11 @@
   }
   .blog_info{
     font-size: smaller;
+  }
+  #test-markdown-view{
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 0 5px #c2c2c2;
+      background-color: rgba(255,255,255,0.8);
   }
   </style>
 {#  <div class="row justify-content-md-center">#}

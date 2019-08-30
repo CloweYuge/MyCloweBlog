@@ -7,6 +7,7 @@
     border-top: 1px solid #ccc;
     display: flex;
     flex-wrap: wrap;
+    background-color: rgba(255,255,255,0.8);
   }
   .editor-header{
     width: 100%;
@@ -15,11 +16,12 @@
   }
   .editor-body{
     {#height: 200px;#}
+    flex-grow: 1;
     border: 1px solid #ccc;
     min-height: 44px;
     height: auto;
     margin-top: 10px;
-    margin-left: 22px;
+    margin-left: 15px;
     width: 80%;
     border-radius: 15px;
     background-color: #fff;
@@ -28,22 +30,29 @@
     overflow:hidden;
     resize:none;
   }
+  .editor-footer{
+      width: 100%;
+      height: 35px;
+      justify-content: center;
+      border-bottom: 1px solid #ccc;
+  }
   .editor-button{
     {#position: absolute;#}
     /* float: right; */
     flex-grow: 1;
-    font-size: 25px;
-    width: 20px;
-    max-width: 90px;
+    {#font-size: 23px;#}
+    min-width: 25px;
+    {#max-width: 90px;#}
     max-height: 45px;
     /* margin: 0px; */
-    margin-left: 15px;
+    margin-right: 15px;
+    margin-left: 5px;
     margin-top: 10px;
     border-radius: 15PX;
     color: #ffffff;
     background-color: #dee2e6;
   }
-  .editor-button:hover {
+  .editor-button-active:hover {
     color: #fff;
     background-color: #087dd1;
     border-color: #087dd1;
@@ -64,7 +73,7 @@
   }
   .msg>span{
     position: absolute;
-    font-size: 1rem;
+    font-size: 0.5rem;
     color: #999;
     {#top: 1rem;#}
     left: 5rem;
@@ -75,7 +84,7 @@
     margin: 0 1.2rem;
     padding: 10px;
     background: #fff;
-    font-size: 16px;
+    font-size: 12px;
     position: relative;
     border-radius: 15px;
     max-width: calc((100% - 85px));
@@ -87,16 +96,36 @@
     position: absolute;
     background: url({{ url_for("static", filename="images/msg-input.png") }}) no-repeat;
     background-size: 15px auto;
-    width: 10px;
-    height: 100px;
-    left: -10px;
-    top: 6px;
+    width: 20px;
+    height: 15px;
+    left: -14px;
+    top: 10px;
   }
   .list_msg{
     background-color: #f1f1f1;
     padding: 1.2rem .8rem 1rem;
     border-radius: 15px 15px 0 0;
+    background-color: rgba(255,255,255,0.8);
     {#border-bottom: 0.5px solid #ccc;#}
+  }
+  .user-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .input-sm{
+    flex-grow: 1;
+    text-align: center;
+    {#margin: 0 6px 0 6px;#}
+    height: 100%;
+    {#border-radius: 10px;#}
+    background-color: rgba(255,255,255,0);
+    border: 0;
+    flex-shrink: 1;
+  }
+  .input-center{
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
   }
   </style>
   <div class="comment">
@@ -105,7 +134,7 @@
     </h3>
     <div class="list_msg">
       <div class="msg">
-        <img src="{{ url_for("static", filename="images/touxiangm.png") }}">
+        <img alt="斜杠青年" src="{{ url_for("static", filename="images/touxiangm.png") }}">
         <span class="name">斜杠青年</span>
         <p>
           <i class="msg_input"></i>怎么不说话？
@@ -113,12 +142,21 @@
       </div>
     </div>
     <div class="add_msg">
+      <div id="editor-footer" class="editor-footer user-info">
+{#        邮箱#}
+        <input type="text" class="input-sm" id="user_name" aria-label="昵称" placeholder="昵称">
+{#        昵称#}
+        <input type="email" class="input-sm input-center" id="user_email" aria-label="邮箱" placeholder="邮箱">
+{#        主页#}
+        <input type="text" class="input-sm" id="user_site" aria-label="主页" placeholder="主页 *选填">
+      </div>
       <div id="editor-header" class="editor-header"></div>
       <div id="editor-body" class="editor-body"></div>
-{#      <div id="editor-footer"></div>#}
-      <div id="editor-button" class="editor-button hide btn btn-sm">
-        <span class="oi oi-x"></span>发送
-      </div>
+      <button id="editor-button" class="editor-button btn float-right btn-sm" data-loading-text="Loading..." type="button" disabled>发送
+      </button>
+{#      <div id="editor-button" class="editor-button hide btn btn-sm">#}
+{#        <span class="oi oi-x"></span>发送#}
+{#      </div>#}
     </div>
   </div>
   <script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
@@ -147,8 +185,36 @@
       'undo',  // 撤销
       {#'redo'  // 重复#}
     ];
+    editor.customConfig.pasteFilterStyle = false;  // 关闭粘贴样式的过滤
+    editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
+    editor.customConfig.onchange = function (html) {
+        // html 即变化之后的内容
+        var email = $("#user_email").val();
+        var name = $("#user_name").val();
+        var content = html;
+        if(!email&&email===""){
+          $("#user_email").css("color", "red").val("输入邮箱")
+        }
+        if(!name&&name===""){
+          $("#user_name").css("color", "red").val("输入昵称")
+        }
+        if(content === ""){
+          $("#editor-button").attr("class", "editor-button btn float-right btn-sm")
+        }else if(content!==""){
+          $("#editor-button").attr("class", "editor-button btn float-right btn-sm editor-button-active")
+        }
+        {#if(!site&&site===""){#}
+        {#  $("#user_site").css("color", "red").val("")#}
+        {# }#}
+        console.log(html)
+    };
     // 或者 var editor = new E( document.getElementById('editor') )
-    editor.create()
+    editor.create();
+
+    {#document.getElementById('btn1').addEventListener('click', function () {#}
+    {#    // 如果未配置 editor.customConfig.onchange，则 editor.change 为 undefined#}
+    {#    editor.change && editor.change()#}
+    {# })#}
 
 
   </script>
