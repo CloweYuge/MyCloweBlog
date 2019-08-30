@@ -1,14 +1,102 @@
 {% macro commont_card(blog) %}
   <style>
   .add_msg{
-    padding: 20px;
+    padding: 0 0 15px 0;
+    background-color: #f1f1f1;
+    border-radius: 0 0 15px 15px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-wrap: wrap;
   }
   .editor-header{
-    border: 1px solid #ccc;
+    width: 100%;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
   }
   .editor-body{
-    height: 200px;
+    {#height: 200px;#}
     border: 1px solid #ccc;
+    min-height: 44px;
+    height: auto;
+    margin-top: 10px;
+    margin-left: 22px;
+    width: 80%;
+    border-radius: 15px;
+    background-color: #fff;
+  }
+  .editor-body>div{
+    overflow:hidden;
+    resize:none;
+  }
+  .editor-button{
+    {#position: absolute;#}
+    /* float: right; */
+    flex-grow: 1;
+    font-size: 25px;
+    width: 20px;
+    max-width: 90px;
+    max-height: 45px;
+    /* margin: 0px; */
+    margin-left: 15px;
+    margin-top: 10px;
+    border-radius: 15PX;
+    color: #ffffff;
+    background-color: #dee2e6;
+  }
+  .editor-button:hover {
+    color: #fff;
+    background-color: #087dd1;
+    border-color: #087dd1;
+  }
+  .msg{
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    padding-bottom: .7rem;
+  }
+  .msg>img{
+    width: 60px;
+    height: 60px;
+    float: left;
+    max-width: 100%;
+    border-radius: 30px;
+    vertical-align: middle;
+  }
+  .msg>span{
+    position: absolute;
+    font-size: 1rem;
+    color: #999;
+    {#top: 1rem;#}
+    left: 5rem;
+  }
+  .msg>p{
+    top: 1.7rem;
+    float: left;
+    margin: 0 1.2rem;
+    padding: 10px;
+    background: #fff;
+    font-size: 16px;
+    position: relative;
+    border-radius: 15px;
+    max-width: calc((100% - 85px));
+    min-height: .8rem;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .msg_input{
+    position: absolute;
+    background: url({{ url_for("static", filename="images/msg-input.png") }}) no-repeat;
+    background-size: 15px auto;
+    width: 10px;
+    height: 100px;
+    left: -10px;
+    top: 6px;
+  }
+  .list_msg{
+    background-color: #f1f1f1;
+    padding: 1.2rem .8rem 1rem;
+    border-radius: 15px 15px 0 0;
+    {#border-bottom: 0.5px solid #ccc;#}
   }
   </style>
   <div class="comment">
@@ -16,20 +104,21 @@
       秀儿大会：
     </h3>
     <div class="list_msg">
-      <div class="reply">
-        <div class="msg">
-          <img src="{{ url_for("static", filename="images/logo.jpg") }}">
-          <span class="name">斜杠青年</span>
-          <p>
-            <i class="msg_input"></i>怎么不和我说话
-          </p>
-        </div>
+      <div class="msg">
+        <img src="{{ url_for("static", filename="images/touxiangm.png") }}">
+        <span class="name">斜杠青年</span>
+        <p>
+          <i class="msg_input"></i>怎么不说话？
+        </p>
       </div>
     </div>
     <div class="add_msg">
       <div id="editor-header" class="editor-header"></div>
-      <div id="editor-body" class="editor-body"><p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p></div>
-      <div id="editor-footer"></div>
+      <div id="editor-body" class="editor-body"></div>
+{#      <div id="editor-footer"></div>#}
+      <div id="editor-button" class="editor-button hide btn btn-sm">
+        <span class="oi oi-x"></span>发送
+      </div>
     </div>
   </div>
   <script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
