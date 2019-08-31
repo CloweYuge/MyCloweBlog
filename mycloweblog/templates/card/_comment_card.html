@@ -7,6 +7,7 @@
     border-top: 1px solid #ccc;
     display: flex;
     flex-wrap: wrap;
+    box-shadow: 0 0 5px #c2c2c2;
     background-color: rgba(255,255,255,0.8);
   }
   .editor-header{
@@ -57,6 +58,7 @@
     background-color: #087dd1;
     border-color: #087dd1;
   }
+
   .msg{
     width: 100%;
     position: relative;
@@ -66,7 +68,7 @@
   .msg>img{
     width: 60px;
     height: 60px;
-    float: left;
+    {#float: left;#}
     max-width: 100%;
     border-radius: 30px;
     vertical-align: middle;
@@ -76,11 +78,11 @@
     font-size: 0.5rem;
     color: #999;
     {#top: 1rem;#}
-    left: 5rem;
+    {#left: 5rem;#}
   }
   .msg>p{
     top: 1.7rem;
-    float: left;
+    {#float: left;#}
     margin: 0 1.2rem;
     padding: 10px;
     background: #fff;
@@ -92,20 +94,49 @@
     box-sizing: border-box;
     word-wrap: break-word;
   }
-  .msg_input{
+  .msg>p>i{
     position: absolute;
     background: url({{ url_for("static", filename="images/msg-input.png") }}) no-repeat;
     background-size: 15px auto;
     width: 20px;
     height: 15px;
-    left: -14px;
+    {#left: -14px;#}
     top: 10px;
   }
+
+  .msg_left>img{
+    float: left;
+  }
+  .msg_left>span{
+    left: 5rem;
+  }
+  .msg_left>p{
+    float: left;
+  }
+  .msg_left>P>i{
+    left: -14px;
+    {#transform: rotateY(180deg);#}
+  }
+  .msg_right>img{
+    float: right;
+  }
+  .msg_right>span{
+    right: 5rem;
+  }
+  .msg_right>p{
+    float: right;
+  }
+  .msg_right>p>i{
+    right: -14px;
+    transform: rotateY(180deg);
+  }
+
   .list_msg{
+    box-shadow: 0 0 5px #c2c2c2;
     background-color: #f1f1f1;
     padding: 1.2rem .8rem 1rem;
     border-radius: 15px 15px 0 0;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(0,0,0,0.2);
     {#border-bottom: 0.5px solid #ccc;#}
   }
   .user-info{
@@ -127,42 +158,56 @@
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
   }
+  .null-red{
+    box-shadow: 0 0 10px red;
+  }
   </style>
   <div class="comment">
     <h3>
       秀儿大会：
     </h3>
     <div class="list_msg">
-      <div class="msg">
+      <div class="msg msg_left dropright">
         <img alt="斜杠青年" src="{{ url_for("static", filename="images/touxiangm.png") }}">
         <span class="name">斜杠青年</span>
-        <p>
-          <i class="msg_input"></i>怎么不说话？
+        <p class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i></i>怎么不说话？
         </p>
+        <div class="dropdown-menu">
+          <button class="dropdown-item" type="button">回复</button>
+        </div>
       </div>
-    </div>
-    <div class="add_msg">
-      <div id="editor-footer" class="editor-footer user-info">
-{#        邮箱#}
-        <input type="text" class="input-sm" id="user_name" aria-label="昵称" placeholder="昵称">
-{#        昵称#}
-        <input type="email" class="input-sm input-center" id="user_email" aria-label="邮箱" placeholder="邮箱">
-{#        主页#}
-        <input type="text" class="input-sm" id="user_site" aria-label="主页" placeholder="主页 *选填">
-      </div>
-      <div id="editor-header" class="editor-header"></div>
-      <div id="editor-body" class="editor-body"></div>
-      <button id="editor-button" class="editor-button btn float-right btn-sm" data-loading-text="Loading..." type="button" disabled>发送
-      </button>
-{#      <div id="editor-button" class="editor-button hide btn btn-sm">#}
-{#        <span class="oi oi-x"></span>发送#}
+{#      <div class="msg msg_right">#}
+{#        <img alt="暴躁少女" src="{{ url_for("static", filename="images/touxiangm.png") }}">#}
+{#        <span class="name">暴躁少女</span>#}
+{#        <p>#}
+{#          <i></i>你是秀儿吗？#}
+{#        </p>#}
 {#      </div>#}
+{#      在这里加载对向回复评论#}
     </div>
+    <form id="edit_comment">
+      <div class="add_msg">
+        <div id="editor-footer" class="editor-footer user-info">
+{#        昵称#}
+        <input type="text" class="input-sm bitian" id="user_name" name="user_name" aria-label="昵称" placeholder="昵称">
+{#        邮箱#}
+        <input type="email" class="input-sm input-center bitian" name="user_email" id="user_email" aria-label="邮箱" placeholder="邮箱">
+{#        主页#}
+        <input type="text" class="input-sm" id="user_site" name="user_site" aria-label="主页" placeholder="主页 *选填">
+      </div>
+        <div id="editor-header" class="editor-header"></div>
+        <div id="editor-body" class="editor-body"></div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <button id="editor-btn" class="editor-button btn float-right btn-sm" type="button" disabled>发送</button>
+      </div>
+    </form>
   </div>
   <script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
   <script>
     var E = window.wangEditor;
     var editor = new E('#editor-header', '#editor-body');
+    var content;
     editor.customConfig.menus = [
       {#'head',  // 标题#}
       {#'bold',  // 粗体#}
@@ -189,19 +234,12 @@
     editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
     editor.customConfig.onchange = function (html) {
         // html 即变化之后的内容
-        var email = $("#user_email").val();
-        var name = $("#user_name").val();
-        var content = html;
-        if(!email&&email===""){
-          $("#user_email").css("color", "red").val("输入邮箱")
-        }
-        if(!name&&name===""){
-          $("#user_name").css("color", "red").val("输入昵称")
-        }
-        if(content === ""){
-          $("#editor-button").attr("class", "editor-button btn float-right btn-sm")
-        }else if(content!==""){
-          $("#editor-button").attr("class", "editor-button btn float-right btn-sm editor-button-active")
+
+        {#content = html;#}
+        if(html === ""||html==="<p><br></p>"){
+          $("#editor-btn").attr("class", "editor-button btn float-right btn-sm").attr("disabled", "disabled")
+        }else if(html !== ""){
+          $("#editor-btn").attr("class", "editor-button btn float-right btn-sm editor-button-active").removeAttr("disabled");
         }
         {#if(!site&&site===""){#}
         {#  $("#user_site").css("color", "red").val("")#}
@@ -211,11 +249,58 @@
     // 或者 var editor = new E( document.getElementById('editor') )
     editor.create();
 
+    $("#editor-btn").click(function() {
+      console.log("hahha");
+      var obj = $(this);
+      var email = $("#user_email").val();
+      var name = $("#user_name").val();
+
+      if(!email||email===""){
+        {#$("#user_email").css("class", "red").val("输入邮箱");#}
+        document.getElementById("user_email").classList.add("null-red");
+        {#$("#user_email").classList.add("null-red");#}
+      }
+      if(!name||name===""){
+        document.getElementById("user_name").classList.add("null-red");
+        {#$("#user_name").classList.add("null-red");#}
+      }
+      var bitian = $(".bitian");
+      bitian.each(function () {
+        if ($(this).hasClass("null-red")){
+          return false;
+        }
+      });
+      
+      obj.attr("disabled", "disabled").text('Sending...');
+      var form = $("#edit_comment").serialize();
+      form = form + "&content=" + content;
+      $.ajax({
+        url: '{{ url_for("blog.add_comment") }}',
+        type: 'post',
+        data: form,
+        success: function (result) {
+          if (result.status === 200){
+            {#添加新节点，无需跳转#}
+            {#window.location.href = result.info['url']#}
+            editor.txt.clear();
+            obj.attr('class', 'editor-button btn float-right btn-sm').text('发送');
+          }else{
+            alert(result.msg);
+          }
+        }
+      })
+    });
     {#document.getElementById('btn1').addEventListener('click', function () {#}
     {#    // 如果未配置 editor.customConfig.onchange，则 editor.change 为 undefined#}
     {#    editor.change && editor.change()#}
     {# })#}
 
+    $(".input-sm").keyup(function () {
+      console.log("dasdsa ");
+      if($(this).val() !== ""){
+        $(this).removeClass("null-red");
+      }
+    })
 
   </script>
 {% endmacro %}

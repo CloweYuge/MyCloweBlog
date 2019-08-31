@@ -177,3 +177,8 @@ def blog_img():
         return url_for('static', filename='images/upload.png')
     return url_for('static', filename='images/upload.png')
 
+
+@blog_bp.route("/add_comment", methods=['POST'])
+def add_comment():
+    print(request.form)
+    return jsonify(status=200, msg='添加完成')
