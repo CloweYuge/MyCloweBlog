@@ -301,7 +301,17 @@
         success: function (result) {
           if (result.status === 200){
             {#添加新节点，无需跳转#}
-
+            var msg = "<div class=\"msg msg_"+ result.position +" drop"+ result.drop +"\">\n" +
+              "        <img alt=\""+ result.info.name +"\" src=\"/static/images/touxiangm.png\">\n" +
+"        <span class=\"name\">"+ result.info.name +"</span>\n"+
+"        <div class=\"pneirong dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i></i>" +
+              result.info.content +
+"        </div>\n"+
+"        <div class=\"dropdown-menu\">\n"+
+"          <button class=\"dropdown-item\" type=\"button\">回复</button>\n"+
+"        </div>\n"+
+"      </div>";
+            $(".list_msg").append(msg);
             {#window.location.href = result.info['url']#}
             editor.txt.clear();
             obj.attr('class', 'editor-button btn float-right btn-sm').text('发送');
