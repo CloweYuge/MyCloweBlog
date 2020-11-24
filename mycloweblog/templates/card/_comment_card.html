@@ -73,18 +73,18 @@
     border-radius: 30px;
     vertical-align: middle;
   }
-  .msg>span{
+  .msg>span.name{
     position: absolute;
     font-size: 0.5rem;
     color: #999;
     {#top: 1rem;#}
     {#left: 5rem;#}
   }
-  .msg>p{
-    top: 1.7rem;
+  .msg>div.pneirong{
+    {#top: 1.7rem;#}
     {#float: left;#}
-    margin: 0 1.2rem;
-    padding: 10px;
+    margin: 1.7rem 1.2rem 0;
+    {#padding: 10px;#}
     background: #fff;
     font-size: 12px;
     position: relative;
@@ -94,7 +94,7 @@
     box-sizing: border-box;
     word-wrap: break-word;
   }
-  .msg>p>i{
+  .msg>div>i{
     position: absolute;
     background: url({{ url_for("static", filename="images/msg-input.png") }}) no-repeat;
     background-size: 15px auto;
@@ -107,26 +107,28 @@
   .msg_left>img{
     float: left;
   }
-  .msg_left>span{
+  .msg_left>span.name{
     left: 5rem;
   }
-  .msg_left>p{
+  .msg_left>div.pneirong{
     float: left;
+    padding: 10px 25px 10px 10px;
   }
-  .msg_left>P>i{
+  .msg_left>div>i{
     left: -14px;
     {#transform: rotateY(180deg);#}
   }
   .msg_right>img{
     float: right;
   }
-  .msg_right>span{
+  .msg_right>span.name{
     right: 5rem;
   }
-  .msg_right>p{
+  .msg_right>div.pneirong{
     float: right;
+    padding: 10px 10px 10px 25px;
   }
-  .msg_right>p>i{
+  .msg_right>div>i{
     right: -14px;
     transform: rotateY(180deg);
   }
@@ -161,6 +163,21 @@
   .null-red{
     box-shadow: 0 0 10px red;
   }
+  .dropright .dropdown-toggle::after{
+    position: absolute;
+    top: calc(100% - 60%);
+    left: calc(100% - 15px);
+  }
+  .dropleft .dropdown-toggle::before{
+    position: absolute;
+    top: calc(100% - 60%);
+    left: calc(100% - 90%);
+  }
+  .pneirong>p{
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
   </style>
   <div class="comment">
     <h3>
@@ -170,20 +187,23 @@
       <div class="msg msg_left dropright">
         <img alt="斜杠青年" src="{{ url_for("static", filename="images/touxiangm.png") }}">
         <span class="name">斜杠青年</span>
-        <p class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i></i>怎么不说话？
-        </p>
+        <div class="pneirong dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i></i><p>nihashile</p>
+        </div>
         <div class="dropdown-menu">
           <button class="dropdown-item" type="button">回复</button>
         </div>
       </div>
-{#      <div class="msg msg_right">#}
-{#        <img alt="暴躁少女" src="{{ url_for("static", filename="images/touxiangm.png") }}">#}
-{#        <span class="name">暴躁少女</span>#}
-{#        <p>#}
-{#          <i></i>你是秀儿吗？#}
-{#        </p>#}
-{#      </div>#}
+      <div class="msg msg_right dropleft">
+        <img alt="暴躁少女" src="{{ url_for("static", filename="images/touxiangm.png") }}">
+        <span class="name">暴躁少女</span>
+        <div class="pneirong dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i></i><p>nihashile</p><p>wochao</p>
+        </div>
+        <div class="dropdown-menu">
+          <button class="dropdown-item" type="button">回复</button>
+        </div>
+      </div>
 {#      在这里加载对向回复评论#}
     </div>
     <form id="edit_comment">
@@ -281,6 +301,17 @@
         success: function (result) {
           if (result.status === 200){
             {#添加新节点，无需跳转#}
+            var msg = "<div class=\"msg msg_"+ result.position +" drop"+ result.drop +"\">\n" +
+              "        <img alt=\""+ result.info.name +"\" src=\"/static/images/touxiangm.png\">\n" +
+"        <span class=\"name\">"+ result.info.name +"</span>\n"+
+"        <div class=\"pneirong dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i></i>" +
+              result.info.content +
+"        </div>\n"+
+"        <div class=\"dropdown-menu\">\n"+
+"          <button class=\"dropdown-item\" type=\"button\">回复</button>\n"+
+"        </div>\n"+
+"      </div>";
+            $(".list_msg").append(msg);
             {#window.location.href = result.info['url']#}
             editor.txt.clear();
             obj.attr('class', 'editor-button btn float-right btn-sm').text('发送');
