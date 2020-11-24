@@ -203,12 +203,12 @@
       </div>
     </form>
   </div>
-  <script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+  <script type="text/javascript" src="//unpkg.com/wangeditor/dist/wangEditor.min.js"></script>
   <script>
     var E = window.wangEditor;
     var editor = new E('#editor-header', '#editor-body');
     var content;
-    editor.customConfig.menus = [
+    editor.config.menus = [
       {#'head',  // 标题#}
       {#'bold',  // 粗体#}
       'fontSize',  // 字号
@@ -230,12 +230,12 @@
       'undo',  // 撤销
       {#'redo'  // 重复#}
     ];
-    editor.customConfig.pasteFilterStyle = false;  // 关闭粘贴样式的过滤
-    editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
-    editor.customConfig.onchange = function (html) {
+    editor.config.pasteFilterStyle = false;  // 关闭粘贴样式的过滤
+    editor.config.uploadImgShowBase64 = true;   // 使用 base64 保存图片
+    editor.config.onchange = function (html) {
         // html 即变化之后的内容
 
-        {#content = html;#}
+        content = html;
         if(html === ""||html==="<p><br></p>"){
           $("#editor-btn").attr("class", "editor-button btn float-right btn-sm").attr("disabled", "disabled")
         }else if(html !== ""){
@@ -275,7 +275,7 @@
       var form = $("#edit_comment").serialize();
       form = form + "&content=" + content;
       $.ajax({
-        url: '{{ url_for("blog.add_comment") }}',
+        url: '{{ url_for("admin.add_comment") }}',
         type: 'post',
         data: form,
         success: function (result) {

@@ -1,11 +1,11 @@
-import os
-import pickle
+# import os
+# import pickle
 from mycloweblog.extensions import db
-from flask import current_app, url_for
+# from flask import current_app, url_for
 from flask_login import UserMixin
 from flask_avatars import Identicon
-import time
-from datetime import datetime, timedelta
+# import time
+# from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from mycloweblog.utils import shijc_type, shijc_now
 # from myclowelog.extensions import whooshee

@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% from 'card/_edit_tag.html' import tag_card with context %}
+
+{% block title %}发布文章{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for("static", filename="mdeditor/css/editormd.min.css") }}" />
+{% endblock styles %}
+
+{% block content %}
+{#    <div class="row justify-content-md-center">#}
+{#        <div class="page-header">#}
+{#            <h1>发布文章</h1>#}
+{#        </div>#}
+        <div class="row">
+            <form id="new-post" action="{{ url_for('admin.add_post') }}" method="post" style="width: 100%">
+                <div class="col-sm-4 float-right biaoqian">
+                    <label class="form-control-label" for="title">标签</label>
+                    {{ tag_card({'height': 124}) }}
+                </div>
+
+                <div class="col-sm-8 biaoti">
+{#                    {{ render_field(form.title) }}#}
+                    <div class="form-group required">
+                        <label class="form-control-label" for="title">标题</label>
+                        <input class="form-control" id="title" name="title" required="" type="text" value="">
+                    </div>
+                    <label class="form-control-label" for="title">分类</label>
+                    <div class="card bg-light mb-3 w-100">
+
+                        <div class="card-body" style="padding: 0.25rem">
+                            <div id="form">
+                                <div class="btn-group">
+                                    <select name="plate_id" style="display: none;">
+                                        <option value="0">板块</option>
+                                    </select>
+                                    <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle" type="button" id="dmbutton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        板块
+                                    </button>
+                                    <div class="dropdown-menu" id="plate">
+                                        {% for p in plates %}
+                                        <a class="dropdown-item" href="#" fid="{{ p.id }}">{{ p.name }}</a>
+                                        {% endfor %}
+                                        <div class="dropdown-divider"></div>
+                                        <input class="" id="add-plate" type="text" placeholder="添加板块">
+                                    </div>
+                                </div>
+
+                                <div class="btn-group" {% if not categorys %}style="display: none"{% endif %}>
+                                    <select name="category_id" style="display: none;">
+                                        <option value="0">分类</option>
+                                    </select>
+                                    <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle float-right" type="button" id="dmbutton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span fid="0">分类</span>
+                                    </button>
+                                    <div class="dropdown-menu" id="category">
+                                        {% for c in categorys %}
+                                        <a class="dropdown-item" href="#" fid="{{ c.id }}">{{ c.name }}</a>
+                                        {% endfor %}
+                                        <div class="dropdown-divider"></div>
+                                        <input class="" id="add-category" type="text" placeholder="添加分类">
+                                    </div>
+                                </div>
+                                <script>
+                                    $("#add-plate").keyup(function (event) {
+                                        var obj = $(this);
+                                        var str = obj.val();
+                                        var tagtext = '';
+                                        var keynum = (event.keyCode ? event.keyCode : event.which);
+                                        {#回车键#}
+                                        console.log(keynum);
+                                        if (keynum === 13) {
+                                            if (!str) {
+                                                return false;
+                                            }else{
+                                                $.ajax({
+                                                    url: "{{ url_for('admin.add_plate') }}",
+                                                    type: "post",
+                                                    data: {
+                                                        name: str,
+                                                        csrf_token: csrf_token
+                                                    },
+                                                    success: function (result) {
+                                                        if (result.status === 200){
+                                                            $("#plate .dropdown-divider").before("<a class='dropdown-item' href='#' fid='" +
+                                                                result.info['id'] + "'>"+ result.info['name'] +"</a>");
+                                                            obj.val("")
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+                                    $("#add-category").keyup(function (event) {
+                                        var obj = $(this);
+                                        var str = obj.val();
+                                        var tagtext = '';
+                                        var plate_id = $("select[name=plate_id]").val();
+                                        var keynum = (event.keyCode ? event.keyCode : event.which);
+                                        {#回车键#}
+                                        console.log(keynum);
+                                        if (keynum === 13) {
+                                            if (!str) {
+                                                return false;
+                                            }else{
+                                                $.ajax({
+                                                    url: "{{ url_for('admin.add_category') }}",
+                                                    type: "post",
+                                                    data: {
+                                                        name: str,
+                                                        plate_id: plate_id,
+                                                        csrf_token: csrf_token
+                                                    },
+                                                    success: function (result) {
+                                                        if (result.status === 200){
+                                                            $("#category .dropdown-divider").before("<a class='dropdown-item' href='#' fid='" +
+                                                                result.info['id'] + "'>"+ result.info['name'] +"</a>");
+                                                            obj.val("")
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                                </script>
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button id="fat-btn" class="btn btn-primary float-right btn-sm" data-loading-text="Loading..."
+                                    type="button"> 发布文章
+                                </button>
+                                <script>
+                                    $("#fat-btn").click(function(){
+                                        console.log("hahha");
+                                        var obj = $(this);
+                                        obj.attr('class', 'btn btn-primary float-right btn-sm disabled').text('Posting...');
+                                        var form = $("#new-post").serialize();
+                                        form = form + "&h_content=" + editor.getHTML();
+                                        $.ajax({
+                                            url: '{{ url_for("admin.add_post") }}',
+                                            type: 'post',
+                                            data: form,
+                                            success: function (result) {
+                                                if (result.status === 200){
+                                                    window.location.href = result.info['url']
+                                                }else{
+                                                    obj.attr('class', 'btn btn-primary float-right btn-sm').text('发布文章');
+                                                    alert(result.info['msg']);
+                                                }
+                                            }
+                                        })
+                                    });
+                                    {#$(function() {#}
+                                    {#    $("#fat-btn").click(function(){#}
+                                    {#        $(this).button('loading');#}
+                                                {#.delay(1000).queue(function() {#}
+                                                {#$(this).button('reset');#}
+                                                {#$(this).dequeue();#}
+                                            {# });#}
+                                    {#    });#}
+                                    {# });#}
+
+                                    $(".btn-group .dropdown-menu").on('click', 'a', function () {
+                                        var t = $(this).text();
+                                        var f = $(this).attr("fid");
+                                        console.log(t, f);
+                                        $(this).parent().siblings('button').html("<span fid='" + f + "'>" + t + "</span>");
+                                        $(this).parent().siblings('select').html("<option value='" + f + "'>" + t + "</option>")
+                                    });
+
+                                    $("#plate").on('click', 'a', function () {
+                                        var pid = $(this).attr("fid");
+                                        if(!pid && pid === '0'){
+                                            return false;
+                                        }
+                                        var Id = [];
+                                        var Name = [];
+                                        var obj = $('#category');
+                                        obj.parent().show();
+                                        $.ajax({
+                                            url: "{{ url_for("blog.get_plate_category") }}",
+                                            type: "get",
+                                            data: {
+                                                pid: pid
+                                            },
+                                            success: function (result) {
+                                                if(result.status === 'ok'){
+                                                    obj.children('a').remove();
+                                                    Name = result.info['names'];
+                                                    Id = result.info['ids'];
+                                                    for (var d = 0; d < Name.length; d++) {
+                                                        {#console.log(cName, cId);#}
+                                                        obj.children('div').before('<a class="dropdown-item" href="#" fid="' + Id[d] + '">' + Name[d] + '</a>');
+                                                    }
+                                                }
+
+                                            }
+                                        })
+                                    })
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+{#                <div class="col-md-3">#}
+{##}
+{#                </div>#}
+
+                <div class="col-sm">
+{#                    {{ render_field(form.body) }}#}
+                    <div id="mdeditor" name="editormd"  style="border-radius: .25rem;">
+{#                        <label class="form-control-label" for="title">标题</label>#}
+                        <textarea aria-label="mdeditor" style="display:none;">### Hello Editor.md !</textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+{#    </div>#}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='mdeditor/editormd.min.js') }}"></script>
+  <script type="text/javascript">
+    var editor;
+
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE|POST)$/i.test(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrf_token)
+        }
+      },
+      success: function (jsonr) {
+        if (jsonr.status === 'error'){
+          alert(jsonr.info['msg'])
+        }
+      }
+    });
+
+    $(function() {
+      editor = editormd("mdeditor", {
+        {#width: "100%",#}
+        height: "650px",
+        // 保存 HTML 到 Textarea,不开启将导致无法getHTML
+        saveHTMLToTextarea : true,
+        searchReplace : true,
+        // 开启图片上传功能
+        imageUpload: true,
+        imageFormats   : ["jpg", "jpeg", "gif", "png", "JPG"],
+        imageUploadURL : "{{ url_for("admin.img_up") }}", //文件提交请求路径
+        {#markdown: 'md',     // 设置内容dynamic set Markdown text#}
+        path : "{{ url_for('static', filename='mdeditor/lib/') }}"  // Autoload modules mode, codemirror, marked... dependents libs path
+      });
+    });
+  </script>
+{% endblock %}

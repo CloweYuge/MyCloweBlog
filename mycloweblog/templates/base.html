@@ -85,7 +85,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 {#                            {% if current_user.can('UPPOST') %}#}
-                            <a class="dropdown-item" href="{{ url_for("blog.add_post") }}">文章</a>
+                            <a class="dropdown-item" href="{{ url_for("admin.add_post") }}">文章</a>
 {#                            {% endif %}#}
 {#                                <a class="dropdown-item" href="#">图片</a>#}
                         </div>
@@ -97,9 +97,8 @@
     </nav>
 {% endblock nav %}
 <div class="video-bg">
-    <video src="{{ url_for("static", filename="video/usaNCED.mp4") }}" type="video/mp4" autoplay="" loop="" muted=""></video>
+    <video src="{{ url_for("static", filename="video/usaNCE.mp4") }}" type="video/mp4" autoplay="" loop="" muted=""></video>
 </div>
-
 
 <main class="container">
 {#    {% for message in get_flashed_messages(with_categories=True) %}#}
@@ -145,9 +144,9 @@
     <script type="text/javascript">
         var csrf_token = "{{ csrf_token() }}";
         {% if current_user.is_authenticated %}
-            var is_authenticated = true;
+          var is_authenticated = true;
         {% else %}
-            var is_authenticated = false;
+          var is_authenticated = false;
         {% endif %}
     </script>
 {% endblock %}

@@ -4,16 +4,17 @@ from flask import Flask, render_template
 from flask_wtf.csrf import CSRFError
 from flask_login import current_user
 
-from mycloweblog.blueprints.home import home_bp
+from mycloweblog.blueprints.admin import admin_bp
 from mycloweblog.blueprints.auth import auth_bp
 # from mycloweblog.blueprints.admin import admin_bp
 from mycloweblog.blueprints.blog import blog_bp
+
 # from mycloweblog.blueprints.ajax import ajax_bp
 # from mycloweblog.blueprints.main import main_bp
 from mycloweblog.extensions import bootstrap, db, moment, ckeditor, mail, login_manager, csrf, dropzone, avatars, \
     migrate, whooshee
 from mycloweblog.settings import config
-from mycloweblog.models import Category, Comment, Notification, Admin
+from mycloweblog.models import Category, Comment, Notification, Admin, Plate
 
 
 def create_app(config_name=None):
@@ -58,7 +59,7 @@ def register_blueprint(app):        # 蓝图注册
     app.register_blueprint(blog_bp)
     # app.register_blueprint(main_bp, url_prefix='/main')
     # app.register_blueprint(ajax_bp, url_prefix='/ajax')
-    # app.register_blueprint(admin_bp, url_prefix='/admin')
+    app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
 
@@ -125,7 +126,12 @@ def register_commands(app):
         category = Category.query.first()
         if category is None:
             click.echo('生成默认分类......')
-            category = Category(name='默认')
+            plate = Plate.query.first()
+            if plate is None:
+                click.echo('生成默认板块......')
+                plate = Plate(name='关于')
+                db.session.add(plate)
+            category = Category(name='介绍', plate_category=plate)
             db.session.add(category)
 
         click.echo('新的超级无敌至高管理员诞生了')
