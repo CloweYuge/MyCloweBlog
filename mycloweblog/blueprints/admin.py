@@ -137,19 +137,46 @@ def add_category():
     # return jsonify(status=200, info={'name': '测试', 'id': '6'})
 
 
+# @admin_bp.route("/add_comment", methods=['POST'])
+# def add_comment():
+#     print(request.form)
+#     msg = request.form.get("content", "")
+#
+#     html = "<div class='msg msg_left dropright'>" \
+#         "<img alt='暴躁少女' src='static/images/touxiangm.png'>" \
+#         "<span class='name'>暴躁少女</span>" \
+#         "<div class='dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" \
+#         "<i></i>" + msg + \
+#         "</div>" \
+#         "<div class='dropdown-menu'>" \
+#         "<button class='dropdown-item' type='button'>回复</button>" \
+#         "</div>" \
+#         "</div>"
+#     return jsonify(status=200, msg='添加完成', html=html)
+
+
 @admin_bp.route("/add_comment", methods=['POST'])
 def add_comment():
     print(request.form)
-    msg = request.form.get("content", "")
+    msg = request.form
 
-    html = "<div class='msg msg_left dropright'>" \
-        "<img alt='暴躁少女' src='static/images/touxiangm.png'>" \
-        "<span class='name'>暴躁少女</span>" \
-        "<div class='dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" \
-        "<i></i>" + msg + \
-        "</div>" \
-        "<div class='dropdown-menu'>" \
-        "<button class='dropdown-item' type='button'>回复</button>" \
-        "</div>" \
-        "</div>"
-    return jsonify(status=200, msg='添加完成', html=html)
+    # 用户内容
+    name = msg.get("user_name")
+    email = msg.get("user_email")
+    site = msg.get("user_site")
+    content = msg.get("content")
+    # 生成储存数据
+    ######
+    # 关联信息
+    position = msg.get("position", "left")
+    drop = msg.get("drop", "right")
+    if msg.get("reply") == "true":
+        reply = True
+        # 回复对象
+        reply_user = msg.get("reply_user")
+        number = msg.get("number")
+        # 调起回复通知，邮件or系统通知
+    elif msg.get("reply") == "false":
+        reply = False
+
+    return jsonify(status=200, msg='添加完成', info={"content": content, "name": name}, position=position, drop=drop)
