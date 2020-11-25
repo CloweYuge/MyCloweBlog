@@ -27,6 +27,15 @@ def blog_show():
     return render_template("errors/404.html", msg="未找到文章信息！")
 
 
+@blog_bp.route("/plate_show")
+def plate_show():
+    plate = Plate.query.get(request.args.get("plate_id", 0, type=int))
+    if plate:
+        return render_template("blog/show_plate.html", plate=plate)
+
+    return render_template("errors/404.html", msg="未找到板块信息！")
+
+
 @blog_bp.route("/get_plate_category")
 def get_plate_category():
     print(request.args)
