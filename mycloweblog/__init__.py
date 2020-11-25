@@ -76,7 +76,8 @@ def register_template_context(app):         # 模板上下文
             notification_count = Notification.query.filter_by(is_read=False).count()
         else:
             notification_count = None
-        return dict(notification_count=notification_count)
+        plate = Plate.query.all()
+        return dict(notification_count=notification_count, plates=plate)
 
 
 def register_errors(app):           # 错误响应注册
@@ -125,12 +126,12 @@ def register_commands(app):
 
         category = Category.query.first()
         if category is None:
-            click.echo('生成默认分类......')
             plate = Plate.query.first()
             if plate is None:
                 click.echo('生成默认板块......')
                 plate = Plate(name='关于')
                 db.session.add(plate)
+            click.echo('生成默认分类......')
             category = Category(name='介绍', plate_category=plate)
             db.session.add(category)
 
