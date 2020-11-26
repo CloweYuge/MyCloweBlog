@@ -155,28 +155,4 @@ def add_category():
 #     return jsonify(status=200, msg='添加完成', html=html)
 
 
-@admin_bp.route("/add_comment", methods=['POST'])
-def add_comment():
-    print(request.form)
-    msg = request.form
 
-    # 用户内容
-    name = msg.get("user_name")
-    email = msg.get("user_email")
-    site = msg.get("user_site")
-    content = msg.get("content")
-    # 生成储存数据
-    ######
-    # 关联信息
-    position = msg.get("position", "left")
-    drop = msg.get("drop", "right")
-    if msg.get("reply") == "true":
-        reply = True
-        # 回复对象
-        reply_user = msg.get("reply_user")
-        number = msg.get("number")
-        # 调起回复通知，邮件or系统通知
-    elif msg.get("reply") == "false":
-        reply = False
-
-    return jsonify(status=200, msg='添加完成', info={"content": content, "name": name}, position=position, drop=drop)

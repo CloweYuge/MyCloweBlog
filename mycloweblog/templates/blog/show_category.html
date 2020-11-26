@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% from 'card/_catalog_card.html' import catalog_card with context %}
+{% from 'card/_comment_card.html' import commont_card with context %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<style>
+  .content-center{
+    {#padding-right: 0;#}
+    {#padding-left: 0;#}
+    {#background-color: rgba(255,255,255,0);#}
+    border-radius:5px 5px 0 0;
+  }
+</style>
+<div class="row justify-content-md-center">
+{#        左#}
+  <div class="col-md-3 content-left" style="display: none">
+
+  </div>
+{#        中#}
+  <div class="col-md-8 content-center">
+    <div class="list-group">
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">#__{{ category.name }}</h5>
+          <small>分类下共有 {{ category.category_blogs|length }} 篇文章</small>
+        </div>
+        <ul class="list-group">
+          {% for post in category.category_blogs %}
+          <a href="{{ url_for("blog.blog_show", blog_id=post.id) }}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+            {{ post.title }}
+            <span class="badge badge-primary badge-pill">{{ post.blog_comments|length }} 评论</span>
+          </a>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{#        右#}
+  <div class="col-md-4 content-right">
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+{# <script src="jquery.min.js"></script>#}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}

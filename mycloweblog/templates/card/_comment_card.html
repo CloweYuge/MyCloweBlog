@@ -212,9 +212,9 @@
 {#        昵称#}
         <input type="text" class="input-sm bitian" id="user_name" name="user_name" aria-label="昵称" placeholder="昵称">
 {#        邮箱#}
-        <input type="email" class="input-sm input-center bitian" name="user_email" id="user_email" aria-label="邮箱" placeholder="邮箱">
+        <input type="email" class="input-sm input-center bitian" name="user_email" id="user_email" aria-label="邮箱" placeholder="邮箱*">
 {#        主页#}
-        <input type="text" class="input-sm" id="user_site" name="user_site" aria-label="主页" placeholder="主页 *选填">
+        <input type="text" class="input-sm" id="user_site" name="user_site" aria-label="主页" placeholder="主页*">
       </div>
         <div id="editor-header" class="editor-header"></div>
         <div id="editor-body" class="editor-body"></div>
@@ -264,62 +264,74 @@
         {#if(!site&&site===""){#}
         {#  $("#user_site").css("color", "red").val("")#}
         {# }#}
-        console.log(html)
+        {#console.log(html)#}
     };
     // 或者 var editor = new E( document.getElementById('editor') )
     editor.create();
 
     $("#editor-btn").click(function() {
-      console.log("hahha");
+      console.log("点击发送");
       var obj = $(this);
-      var email = $("#user_email").val();
-      var name = $("#user_name").val();
-
-      if(!email||email===""){
+      {#var email = $("#user_email").val();#}
+      var nameE = $("#user_name")
+      var name = nameE.val();
+      var over = Boolean
+      {#if(!email||email===""){#}
         {#$("#user_email").css("class", "red").val("输入邮箱");#}
-        document.getElementById("user_email").classList.add("null-red");
+      {#  document.getElementById("user_email").classList.add("null-red");#}
         {#$("#user_email").classList.add("null-red");#}
-      }
+      {# }#}
       if(!name||name===""){
+        nameE.attr("placeholder", "请填写一个昵称");
         document.getElementById("user_name").classList.add("null-red");
-        {#$("#user_name").classList.add("null-red");#}
+        {#name.classList.add("null-red");#}
       }
       var bitian = $(".bitian");
       bitian.each(function () {
         if ($(this).hasClass("null-red")){
+          {#console.log("有");#}
+          over = false
           return false;
+        }else{
+          {#console.log("没");#}
+          over = true
         }
       });
-      
-      obj.attr("disabled", "disabled").text('Sending...');
-      var form = $("#edit_comment").serialize();
-      form = form + "&content=" + content;
-      $.ajax({
-        url: '{{ url_for("admin.add_comment") }}',
-        type: 'post',
-        data: form,
-        success: function (result) {
-          if (result.status === 200){
-            {#添加新节点，无需跳转#}
-            var msg = "<div class=\"msg msg_"+ result.position +" drop"+ result.drop +"\">\n" +
-              "        <img alt=\""+ result.info.name +"\" src=\"/static/images/touxiangm.png\">\n" +
-"        <span class=\"name\">"+ result.info.name +"</span>\n"+
-"        <div class=\"pneirong dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i></i>" +
-              result.info.content +
-"        </div>\n"+
-"        <div class=\"dropdown-menu\">\n"+
-"          <button class=\"dropdown-item\" type=\"button\">回复</button>\n"+
-"        </div>\n"+
-"      </div>";
-            $(".list_msg").append(msg);
-            {#window.location.href = result.info['url']#}
-            editor.txt.clear();
-            obj.attr('class', 'editor-button btn float-right btn-sm').text('发送');
-          }else{
-            alert(result.msg);
-          }
-        }
-      })
+      {#console.log(over);#}
+      if(over){
+          obj.attr("disabled", "disabled").text('Sending...');
+          var form = $("#edit_comment").serialize();
+          form = form + "&content=" + content;
+          $.ajax({
+            url: '{{ url_for("blog.add_comment") }}',
+            type: 'post',
+            data: form,
+            success: function (result) {
+              if (result.status === 200){
+                {#添加新节点，无需跳转#}
+                var msg = "<div class=\"msg msg_"+ result.position +" drop"+ result.drop +"\">\n" +
+                  "        <img alt=\""+ result.info.name +"\" src=\"/static/images/touxiangm.png\">\n" +
+    "        <span class=\"name\">"+ result.info.name +"</span>\n"+
+    "        <div class=\"pneirong dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i></i>" +
+                  result.info.content +
+    "        </div>\n"+
+    "        <div class=\"dropdown-menu\">\n"+
+    "          <button class=\"dropdown-item\" type=\"button\">回复</button>\n"+
+    "        </div>\n"+
+    "      </div>";
+                $(".list_msg").append(msg);
+                {#window.location.href = result.info['url']#}
+                editor.txt.clear();
+                obj.attr('class', 'editor-button btn float-right btn-sm').text('发送');
+              }else{
+                alert(result.msg);
+              }
+            }
+          })
+      }else{
+          return false;
+      }
+
     });
     {#document.getElementById('btn1').addEventListener('click', function () {#}
     {#    // 如果未配置 editor.customConfig.onchange，则 editor.change 为 undefined#}
@@ -327,7 +339,7 @@
     {# })#}
 
     $(".input-sm").keyup(function () {
-      console.log("dasdsa ");
+      console.log("在输入");
       if($(this).val() !== ""){
         $(this).removeClass("null-red");
       }

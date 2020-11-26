@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% from 'card/_blog_card.html' import blog_card with context %}
+{% from 'card/_category_card.html' import category_card with context %}
 
 {% block title %}首页{% endblock %}
 
@@ -17,7 +18,7 @@
     </div>
 {#        右#}
     <div class="col-md-4 content-right">
-
+      {{ category_card(categorys) }}
     </div>
   </div>
 {% endblock %}

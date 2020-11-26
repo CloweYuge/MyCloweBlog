@@ -1,0 +1,12 @@
+{% macro category_card(categorys) %}
+  <div class="list-group">
+    {% for category in categorys %}
+    <a href="{{ url_for('blog.category_show', category_id=category.id) }}" class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"># {{ category.name }}</h5>
+        <small>分类下共有 {{ category.category_blogs|length }} 篇文章</small>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+{% endmacro %}

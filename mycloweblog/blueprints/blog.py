@@ -14,7 +14,8 @@ blog_bp = Blueprint('blog', __name__)
 @blog_bp.route("/")
 def index():
     blogs = Blog.query.all()
-    return render_template("blog/index.html", blogs=blogs)
+    category = Category.query.all()
+    return render_template("blog/index.html", blogs=blogs, categorys=category)
 
 
 @blog_bp.route("/blog_show")
@@ -22,6 +23,9 @@ def blog_show():
     print(request.args)
     blog = Blog.query.get(request.args.get("blog_id", 0, type=int))
     if blog:
+        if current_user.is_authenticated is False:
+            blog.look_count = blog.look_count + 1
+            db.session.commit()
         return render_template("blog/show_blog.html", blog=blog)
 
     return render_template("errors/404.html", msg="未找到文章信息！")
@@ -32,6 +36,15 @@ def plate_show():
     plate = Plate.query.get(request.args.get("plate_id", 0, type=int))
     if plate:
         return render_template("blog/show_plate.html", plate=plate)
+
+    return render_template("errors/404.html", msg="未找到板块信息！")
+
+
+@blog_bp.route("/category_show")
+def category_show():
+    category = Category.query.get(request.args.get("category_id", 0, type=int))
+    if category:
+        return render_template("blog/show_category.html", category=category)
 
     return render_template("errors/404.html", msg="未找到板块信息！")
 
@@ -65,3 +78,29 @@ def blog_img():
         return url_for('static', filename='images/upload.png')
     return url_for('static', filename='images/upload.png')
 
+
+@blog_bp.route("/add_comment", methods=['POST'])
+def add_comment():
+    print(request.form)
+    msg = request.form
+
+    # 用户内容
+    name = msg.get("user_name")
+    email = msg.get("user_email")
+    site = msg.get("user_site")
+    content = msg.get("content")
+    # 生成储存数据
+    ######
+    # 关联信息
+    position = msg.get("position", "left")
+    drop = msg.get("drop", "right")
+    if msg.get("reply") == "true":
+        reply = True
+        # 回复对象
+        reply_user = msg.get("reply_user")
+        number = msg.get("number")
+        # 在此处调起回复通知，邮件or系统通知
+    elif msg.get("reply") == "false":
+        reply = False
+
+    return jsonify(status=200, msg='添加完成', info={"content": content, "name": name}, position=position, drop=drop)
