@@ -23,6 +23,7 @@
     height: auto;
     margin-top: 10px;
     margin-left: 15px;
+    margin-right: 5px;
     width: 80%;
     border-radius: 15px;
     background-color: #fff;
@@ -46,8 +47,8 @@
     {#max-width: 90px;#}
     max-height: 45px;
     /* margin: 0px; */
-    margin-right: 15px;
-    margin-left: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
     margin-top: 10px;
     border-radius: 15PX;
     color: #ffffff;
@@ -57,6 +58,21 @@
     color: #fff;
     background-color: #087dd1;
     border-color: #087dd1;
+  }
+
+  .editor-header>div.relpy_menu{
+    width: max-content;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .relpy_menu>span{
+    background-color: #32c1ff;
+    border-style: none;
+    border-color: #ffffff;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 15px;
   }
 
   .msg{
@@ -70,13 +86,13 @@
     height: 60px;
     {#float: left;#}
     max-width: 100%;
-    border-radius: 30px;
+    border-radius: 15px;
     vertical-align: middle;
   }
-  .msg>span.name{
+  .msg>div.message{
     position: absolute;
     font-size: 0.5rem;
-    color: #999;
+    color: #fff;
     {#top: 1rem;#}
     {#left: 5rem;#}
   }
@@ -84,12 +100,13 @@
     {#top: 1.7rem;#}
     {#float: left;#}
     margin: 1.7rem 1.2rem 0;
+    padding: 10px 10px 10px 10px;
     {#padding: 10px;#}
     background: #fff;
     font-size: 12px;
     position: relative;
     border-radius: 15px;
-    max-width: calc((100% - 85px));
+    max-width: calc((100% - 100px));
     min-height: .8rem;
     box-sizing: border-box;
     word-wrap: break-word;
@@ -107,12 +124,11 @@
   .msg_left>img{
     float: left;
   }
-  .msg_left>span.name{
+  .msg_left>div.message{
     left: 5rem;
   }
   .msg_left>div.pneirong{
     float: left;
-    padding: 10px 25px 10px 10px;
   }
   .msg_left>div>i{
     left: -14px;
@@ -121,12 +137,11 @@
   .msg_right>img{
     float: right;
   }
-  .msg_right>span.name{
+  .msg_right>div.message{
     right: 5rem;
   }
   .msg_right>div.pneirong{
     float: right;
-    padding: 10px 10px 10px 25px;
   }
   .msg_right>div>i{
     right: -14px;
@@ -163,16 +178,16 @@
   .null-red{
     box-shadow: 0 0 10px red;
   }
-  .dropright .dropdown-toggle::after{
-    position: absolute;
-    top: calc(100% - 60%);
-    left: calc(100% - 15px);
-  }
-  .dropleft .dropdown-toggle::before{
-    position: absolute;
-    top: calc(100% - 60%);
-    left: calc(100% - 90%);
-  }
+  {#.dropright .dropdown-toggle::after{#}
+  {#  position: absolute;#}
+  {#  top: calc(100% - 60%);#}
+  {#  left: calc(100% - 15px);#}
+  {# }#}
+  {#.dropleft .dropdown-toggle::before{#}
+  {#  position: absolute;#}
+  {#  top: calc(100% - 60%);#}
+  {#  left: calc(100% - 90%);#}
+  {# }#}
   .pneirong>p{
     margin-top: 0;
     margin-bottom: 5px;
@@ -183,41 +198,38 @@
     <h3>
       秀儿大会：
     </h3>
-    <div class="list_msg">
-      <div class="msg msg_left dropright">
-        <img alt="斜杠青年" src="{{ url_for("static", filename="images/touxiangm.png") }}">
-        <span class="name">斜杠青年</span>
-        <div class="pneirong dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i></i><p>nihashile</p>
-        </div>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button">回复</button>
-        </div>
-      </div>
-      <div class="msg msg_right dropleft">
-        <img alt="暴躁少女" src="{{ url_for("static", filename="images/touxiangm.png") }}">
-        <span class="name">暴躁少女</span>
-        <div class="pneirong dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i></i><p>nihashile</p><p>wochao</p>
-        </div>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button">回复</button>
-        </div>
-      </div>
+    <div class="list_msg" id="list_msg">
+      {% for comment in blog.blog_comments %}
+      {% if comment.commented is none %}
+        {{ commentinfo(comment) }}
+      {% endif %}
+      {% endfor %}
+{#      <div class="msg msg_right">#}
+{#        <img alt="暴躁少女" src="{{ url_for("static", filename="images/touxiangm.png") }}">#}
+{#        <span class="name">暴躁少女</span>#}
+{#        <span class="time">评论时间</span>#}
+{#        <a class="reply" id="3" name="少女" position="right">回复</a>#}
+{#        <div class="pneirong">#}
+{#          <i></i><p>nihashile</p><p>wochao</p>#}
+{#        </div>#}
+{#      </div>#}
 {#      在这里加载对向回复评论#}
     </div>
     <form id="edit_comment">
       <div class="add_msg">
         <div id="editor-footer" class="editor-footer user-info">
 {#        昵称#}
-        <input type="text" class="input-sm bitian" id="user_name" name="user_name" aria-label="昵称" placeholder="昵称">
-{#        邮箱#}
-        <input type="email" class="input-sm input-center bitian" name="user_email" id="user_email" aria-label="邮箱" placeholder="邮箱*">
-{#        主页#}
-        <input type="text" class="input-sm" id="user_site" name="user_site" aria-label="主页" placeholder="主页*">
-      </div>
+          <input type="text" class="input-sm bitian" id="user_name" name="user_name" aria-label="昵称" placeholder="昵称" value="{{ commentuser.name }}">
+  {#        邮箱#}
+          <input type="email" class="input-sm input-center bitian" name="user_email" id="user_email" aria-label="邮箱" placeholder="邮箱*" value="{{ commentuser.email }}">
+  {#        主页#}
+          <input type="text" class="input-sm" id="user_site" name="user_site" aria-label="主页" placeholder="主页*" value="{{ commentuser.site }}">
+        </div>
         <div id="editor-header" class="editor-header"></div>
         <div id="editor-body" class="editor-body"></div>
+        <input type="hidden" id="reply_id" name="reply" value="">
+        <input type="hidden" id="position" name="position" value="">
+        <input type="hidden" name="blog_id" value="{{ blog.id }}">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <button id="editor-btn" class="editor-button btn float-right btn-sm" type="button" disabled>发送</button>
       </div>
@@ -225,9 +237,47 @@
   </div>
   <script type="text/javascript" src="//unpkg.com/wangeditor/dist/wangEditor.min.js"></script>
   <script>
-    var E = window.wangEditor;
-    var editor = new E('#editor-header', '#editor-body');
+    const E = window.wangEditor;
+    const {BtnMenu} = E
+    class AlertMenu extends BtnMenu {
+      constructor(editor) {
+          const elem = E.$(
+                          `<div class="w-e-menu relpy_menu">
+                            <span>回复：</span>
+                        </div>`
+                    )
+          super(elem, editor)
+      }
+      // 菜单点击事件
+      clickHandler() {
+          // 做任何你想做的事情
+          // 可参考【常用 API】文档，来操作编辑器
+          $("#reply_id").val("")
+          $("#position").val("")
+          $(editor.$toolbarElem.elems[0]).children("div:last").children("span#cancel").remove()
+          $(editor.$toolbarElem.elems[0]).children("div:last").children().text("回复：")
+          {#console.log()#}
+      }
+      tryChangeActive() {
+          // 激活菜单
+          // 1. 菜单 DOM 节点会增加一个 .w-e-active 的 css class
+          // 2. this.this.isActive === true
+          this.active()
+          // // 取消激活菜单
+          // // 1. 菜单 DOM 节点会删掉 .w-e-active
+          // // 2. this.this.isActive === false
+          // this.unActive()
+      }
+    }
+    const editor = new E('#editor-header', '#editor-body');
     var content;
+
+    const menuKey = 'alertMenuKey' // 菜单 key ，各个菜单不能重复
+    editor.menus.extend('alertMenuKey', AlertMenu)
+
+    // 将菜单加入到 editor.config.menus 中
+    // 也可以通过配置 menus 调整菜单的顺序，参考【配置菜单】部分的文档
+    {#editor.config.menus = editor.config.menus.concat(menuKey)#}
     editor.config.menus = [
       {#'head',  // 标题#}
       {#'bold',  // 粗体#}
@@ -248,6 +298,7 @@
       {#'video',  // 插入视频#}
       'code',  // 插入代码
       'undo',  // 撤销
+      'alertMenuKey',
       {#'redo'  // 重复#}
     ];
     editor.config.pasteFilterStyle = false;  // 关闭粘贴样式的过滤
@@ -256,7 +307,7 @@
         // html 即变化之后的内容
 
         content = html;
-        if(html === ""||html==="<p><br></p>"){
+        if(html === ""||html==="<p><br></p>"||html === " "){
           $("#editor-btn").attr("class", "editor-button btn float-right btn-sm").attr("disabled", "disabled")
         }else if(html !== ""){
           $("#editor-btn").attr("class", "editor-button btn float-right btn-sm editor-button-active").removeAttr("disabled");
@@ -267,15 +318,18 @@
         {#console.log(html)#}
     };
     // 或者 var editor = new E( document.getElementById('editor') )
+
     editor.create();
 
-    $("#editor-btn").click(function() {
+    $("#editor-btn").on('click', function() {
       console.log("点击发送");
-      var obj = $(this);
+      let obj = $(this);
       {#var email = $("#user_email").val();#}
-      var nameE = $("#user_name")
-      var name = nameE.val();
-      var over = Boolean
+      let nameE = $("#user_name")
+      let name = nameE.val();
+      let over = Boolean
+      let reply_id = $('.add_msg').children('input#reply_id').val()
+
       {#if(!email||email===""){#}
         {#$("#user_email").css("class", "red").val("输入邮箱");#}
       {#  document.getElementById("user_email").classList.add("null-red");#}
@@ -286,7 +340,7 @@
         document.getElementById("user_name").classList.add("null-red");
         {#name.classList.add("null-red");#}
       }
-      var bitian = $(".bitian");
+      let bitian = jQuery(".bitian");
       bitian.each(function () {
         if ($(this).hasClass("null-red")){
           {#console.log("有");#}
@@ -300,26 +354,32 @@
       {#console.log(over);#}
       if(over){
           obj.attr("disabled", "disabled").text('Sending...');
-          var form = $("#edit_comment").serialize();
+          let form = jQuery("#edit_comment").serialize();
           form = form + "&content=" + content;
-          $.ajax({
+          jQuery.ajax({
             url: '{{ url_for("blog.add_comment") }}',
             type: 'post',
             data: form,
             success: function (result) {
               if (result.status === 200){
                 {#添加新节点，无需跳转#}
-                var msg = "<div class=\"msg msg_"+ result.position +" drop"+ result.drop +"\">\n" +
-                  "        <img alt=\""+ result.info.name +"\" src=\"/static/images/touxiangm.png\">\n" +
-    "        <span class=\"name\">"+ result.info.name +"</span>\n"+
-    "        <div class=\"pneirong dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i></i>" +
-                  result.info.content +
-    "        </div>\n"+
-    "        <div class=\"dropdown-menu\">\n"+
-    "          <button class=\"dropdown-item\" type=\"button\">回复</button>\n"+
-    "        </div>\n"+
-    "      </div>";
-                $(".list_msg").append(msg);
+                let msg = result.html;
+                {#console.log(reply_id)#}
+                if(reply_id === ""){
+                    jQuery(".list_msg").append(msg);
+                }else{
+                    let newdom = "div#" + reply_id
+                    let old = "div[replyid='" + reply_id + "']:last"
+                    {#let ReplyDom = #}
+                    let noreply = $(".list_msg").children(newdom)
+                    let yesreply = $(".list_msg").children(old)
+                    {#console.log(yesreply.length, noreply.length)#}
+                    if(yesreply.length !== 0){
+                      yesreply.after(msg)
+                    }else{
+                        noreply.after(msg)
+                    }
+                }
                 {#window.location.href = result.info['url']#}
                 editor.txt.clear();
                 obj.attr('class', 'editor-button btn float-right btn-sm').text('发送');
@@ -338,12 +398,54 @@
     {#    editor.change && editor.change()#}
     {# })#}
 
-    $(".input-sm").keyup(function () {
+    $(".input-sm").on('keyup', function () {
       console.log("在输入");
       if($(this).val() !== ""){
         $(this).removeClass("null-red");
       }
     })
 
+    $(".list_msg").on('click', ".reply", function () {
+      let id = $(this).attr('id')
+      let name = $(this).attr('name')
+      let position = $(this).attr('position')
+      {#var neirong = editor.txt.html()#}
+      $("#reply_id").val(id)
+      $("#position").val(position)
+      {#console.log(neirong)#}
+      {#$(".relpy_menu>button").text("回复: " + name)#}
+      $(editor.$toolbarElem.elems[0]).children("div:last").children("span#cancel").remove()
+      $(editor.$toolbarElem.elems[0]).children("div:last").children().text("回复：" + name)
+      $(editor.$toolbarElem.elems[0]).children("div:last").append("<span id=\"cancel\" style='background-color: darkred'>取消</span>")
+      {#editor.txt.html("<p style='font-size: small; color: #00c4ff'>@" + name + "<br></p>")#}
+      {#if(neirong === ""||neirong==="<p><br></p>"||neirong === " "){#}
+      {#    console.log('我擦')#}
+      {#    editor.txt.append("<p>你好：</p>")#}
+      {# }else{#}
+      {#    editor.txt.append(neirong)#}
+      {# }#}
+    })
+
   </script>
+{% endmacro %}
+{% macro commentinfo(comment) %}
+  <div id="{{ comment.id }}" {% if comment.commented %}replyid="{{ comment.commented.id }}" {% endif %}class="msg msg_{{ comment.comment_yu }}">
+    <img alt="{{ comment.name }}" src="{{ url_for("static", filename="images/touxiangm.png") }}">
+    <div class="message">
+      <span class="name">{{ comment.name }}</span>
+      <span class="time">评论时间</span>
+      <a class="reply" id="{{ comment.id }}" name="{{ comment.name }}" position="{{ comment.comment_yu }}">回复</a>
+    </div>
+
+    <div class="pneirong">
+      {% autoescape off %}
+      <i></i>{{ comment.mark }}
+      {% endautoescape %}
+    </div>
+  </div>
+  {% if comment.comments %}
+    {% for co in comment.comments %}
+      {{ commentinfo(co) }}
+    {% endfor %}
+  {% endif %}
 {% endmacro %}

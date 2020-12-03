@@ -1,6 +1,6 @@
 import os
 import click
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_wtf.csrf import CSRFError
 from flask_login import current_user
 
@@ -77,7 +77,12 @@ def register_template_context(app):         # 模板上下文
         else:
             notification_count = None
         plate = Plate.query.all()
-        return dict(notification_count=notification_count, plates=plate)
+        comment_cookie = {
+            "name": request.cookies.get("comment_name", ""),
+            "email": request.cookies.get("comment_email", ""),
+            "site": request.cookies.get("comment_site", "")
+        }
+        return dict(notification_count=notification_count, plates=plate, commentuser=comment_cookie)
 
 
 def register_errors(app):           # 错误响应注册

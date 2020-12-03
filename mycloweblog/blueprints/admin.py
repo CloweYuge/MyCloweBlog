@@ -126,6 +126,7 @@ def add_category():
         return jsonify(status=400, info={'msg': '已存在'})
     elif category is None:
         category = Category(name=name, mark=name + '分类', plate_category=plate)
+
     try:
         db.session.add(category)
         db.session.commit()

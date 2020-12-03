@@ -1,5 +1,6 @@
 import pickle
-from flask import Blueprint, render_template, request, current_app, flash, redirect, url_for, jsonify, Response
+from flask import Blueprint, render_template, request, current_app, flash, redirect, \
+    url_for, jsonify, Response, make_response
 from flask_login import login_required, current_user
 from mycloweblog.models import Blog, Category, Comment, Tag, Admin, Photo, Plate
 # from mycloweblog.forms.admin import EditProfileAdminForm
@@ -81,7 +82,7 @@ def blog_img():
 
 @blog_bp.route("/add_comment", methods=['POST'])
 def add_comment():
-    print(request.form)
+    print(request.form, request.cookies)
     msg = request.form
 
     # 用户内容
@@ -89,18 +90,50 @@ def add_comment():
     email = msg.get("user_email")
     site = msg.get("user_site")
     content = msg.get("content")
+    blog = Blog.query.get(msg.get("blog_id", 0, type=int))
+
     # 生成储存数据
     ######
     # 关联信息
     position = msg.get("position", "left")
-    drop = msg.get("drop", "right")
-    if msg.get("reply") == "true":
-        reply = True
-        # 回复对象
-        reply_user = msg.get("reply_user")
-        number = msg.get("number")
+    re_comment = Comment.query.get(msg.get("reply", 0, type=int))
+    if re_comment:
+        if position == "left":
+            po = "right"
+        elif position == "right":
+            po = "left"
+        else:
+            po = ''
+        reply_id = str(re_comment.id)
         # 在此处调起回复通知，邮件or系统通知
-    elif msg.get("reply") == "false":
-        reply = False
-
-    return jsonify(status=200, msg='添加完成', info={"content": content, "name": name}, position=position, drop=drop)
+    else:
+        reply_id = ''
+        po = "left"
+    # 生成头像
+    # avatar =
+    comment = Comment(name=name, email=email, site=site, mark=content,
+                      comment_yu=po, commented=re_comment, blog_comment=blog)
+    try:
+        db.session.add(comment)
+        db.session.commit()
+    except Exception as err:
+        db.session.rollback()
+        return jsonify(status=400, info={'msg': '发生错误：' + str(err)})
+    else:
+        print(type(comment.mark))
+        html = "<div id=\"" + str(comment.id) + "\" replyid=\"" + reply_id + "\" " \
+            "class=\"msg msg_" + comment.comment_yu + "\">\n" \
+            "<img alt=\"" + comment.name + "\" src=\"/static/images/touxiangm.png\">\n" \
+            "<div class=\"message\">" \
+            "<span class=\"name\">" + comment.name + "</span>\n" \
+            "<span class =\"time\">评论时间</span>" \
+            "<a class =\"reply\" id=\"" + str(comment.id) + "\" " \
+            "name=\"" + comment.name + "\" position=\"" + comment.comment_yu + "\">回复</a>" \
+            "</div>" \
+            "<div class=\"pneirong\"><i></i>" + comment.mark + "</div>\n" \
+            "</div>"
+        re = make_response(jsonify(status=200, msg='添加完成', html=html))
+        re.set_cookie("comment_name", name)
+        re.set_cookie('comment_email', email)
+        re.set_cookie('comment_site', site)
+        return re

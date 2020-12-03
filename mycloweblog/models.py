@@ -19,7 +19,7 @@ class Admin(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
 
     email = db.Column(db.String(25))
-    avatar = db.Column(db.LargeBinary)
+    avatar = db.Column(db.String(64))
     active = db.Column(db.Boolean, default=True)
     about = db.Column(db.Text)
 
@@ -165,7 +165,7 @@ class Comment(db.Model):
     name = db.Column(db.String(15))
     email = db.Column(db.String(15))
     site = db.Column(db.String(50))
-    avatar = db.Column(db.LargeBinary)
+    avatar = db.Column(db.String(64))
 
     # 上级领导，自引用一对多关系
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
@@ -175,7 +175,7 @@ class Comment(db.Model):
     comments = db.relationship('Comment', back_populates='commented')
 
     # 评论域
-    comment_yu = db.Column(db.Integer)
+    comment_yu = db.Column(db.String(10))
     # 文章
     blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'))
     blog_comment = db.relationship('Blog', back_populates='blog_comments', foreign_keys=[blog_id])
@@ -187,7 +187,7 @@ class Comment(db.Model):
     def generate_avatar(self):
         avatar = Identicon()
         filenames = avatar.generate(text=self.name)
-        self.avatar = filenames[1]
+        self.avatar = filenames[0]
         db.session.commit()
 
 
