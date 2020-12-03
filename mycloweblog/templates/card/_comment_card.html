@@ -96,11 +96,18 @@
     {#top: 1rem;#}
     {#left: 5rem;#}
   }
+  .msg>div.message>span.admin{
+    color: #000000;
+    background-color: #00c4ff;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
   .msg>div.pneirong{
     {#top: 1.7rem;#}
     {#float: left;#}
-    margin: 1.7rem 1.2rem 0;
-    padding: 10px 10px 10px 10px;
+    margin: 1.4rem 1.2rem 0;
+    padding: 5px 10px 5px 10px;
     {#padding: 10px;#}
     background: #fff;
     font-size: 12px;
@@ -191,7 +198,7 @@
   .pneirong>p{
     margin-top: 0;
     margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 15px;
   }
   </style>
   <div class="comment">
@@ -219,11 +226,14 @@
       <div class="add_msg">
         <div id="editor-footer" class="editor-footer user-info">
 {#        昵称#}
-          <input type="text" class="input-sm bitian" id="user_name" name="user_name" aria-label="昵称" placeholder="昵称" value="{{ commentuser.name }}">
+          <input type="text" class="input-sm bitian" id="user_name" name="user_name" aria-label="昵称"
+                 placeholder="昵称" value="{% if current_user.is_authenticated %}{{ current_user.login_name }}{% else %}{{ commentuser.name }}{% endif %}">
   {#        邮箱#}
-          <input type="email" class="input-sm input-center bitian" name="user_email" id="user_email" aria-label="邮箱" placeholder="邮箱*" value="{{ commentuser.email }}">
+          <input type="email" class="input-sm input-center bitian" name="user_email" id="user_email" aria-label="邮箱"
+                 placeholder="邮箱*" value="{% if current_user.is_authenticated %}{{ current_user.email }}{% else %}{{ commentuser.email }}{% endif %}">
   {#        主页#}
-          <input type="text" class="input-sm" id="user_site" name="user_site" aria-label="主页" placeholder="主页*" value="{{ commentuser.site }}">
+          <input type="text" class="input-sm" id="user_site" name="user_site" aria-label="主页"
+                 placeholder="主页*" value="{% if current_user.is_authenticated %}{{ url_for('blog.index') }}{% else %}{{ commentuser.site }}{% endif %}">
         </div>
         <div id="editor-header" class="editor-header"></div>
         <div id="editor-body" class="editor-body"></div>
@@ -433,6 +443,9 @@
     <img alt="{{ comment.name }}" src="{{ url_for("static", filename="images/touxiangm.png") }}">
     <div class="message">
       <span class="name">{{ comment.name }}</span>
+      {% if comment.from_admin %}
+        <span class="admin">Master</span>
+      {% endif %}
       <span class="time">评论时间</span>
       <a class="reply" id="{{ comment.id }}" name="{{ comment.name }}" position="{{ comment.comment_yu }}">回复</a>
     </div>

@@ -86,9 +86,18 @@ def add_comment():
     msg = request.form
 
     # 用户内容
-    name = msg.get("user_name")
-    email = msg.get("user_email")
-    site = msg.get("user_site")
+    if current_user.is_authenticated:
+        name = current_user.login_name
+        email = current_user.email
+        site = url_for(".index")
+        fromadmin = True
+        tag = "<span class=\"admin\">Master</span>"
+    else:
+        name = msg.get("user_name")
+        email = msg.get("user_email")
+        site = msg.get("user_site")
+        fromadmin = False
+        tag = ""
     content = msg.get("content")
     blog = Blog.query.get(msg.get("blog_id", 0, type=int))
 
@@ -109,10 +118,9 @@ def add_comment():
     else:
         reply_id = ''
         po = "left"
-    # 生成头像
-    # avatar =
+
     comment = Comment(name=name, email=email, site=site, mark=content,
-                      comment_yu=po, commented=re_comment, blog_comment=blog)
+                      comment_yu=po, commented=re_comment, blog_comment=blog, from_admin=fromadmin)
     try:
         db.session.add(comment)
         db.session.commit()
@@ -125,7 +133,7 @@ def add_comment():
             "class=\"msg msg_" + comment.comment_yu + "\">\n" \
             "<img alt=\"" + comment.name + "\" src=\"/static/images/touxiangm.png\">\n" \
             "<div class=\"message\">" \
-            "<span class=\"name\">" + comment.name + "</span>\n" \
+            "<span class=\"name\">" + comment.name + "</span>" + tag + "\n" \
             "<span class =\"time\">评论时间</span>" \
             "<a class =\"reply\" id=\"" + str(comment.id) + "\" " \
             "name=\"" + comment.name + "\" position=\"" + comment.comment_yu + "\">回复</a>" \
@@ -133,7 +141,8 @@ def add_comment():
             "<div class=\"pneirong\"><i></i>" + comment.mark + "</div>\n" \
             "</div>"
         re = make_response(jsonify(status=200, msg='添加完成', html=html))
-        re.set_cookie("comment_name", name)
-        re.set_cookie('comment_email', email)
-        re.set_cookie('comment_site', site)
+        if current_user.is_authenticated is False:
+            re.set_cookie("comment_name", name)
+            re.set_cookie('comment_email', email)
+            re.set_cookie('comment_site', site)
         return re

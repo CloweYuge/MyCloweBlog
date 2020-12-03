@@ -1,4 +1,4 @@
-# import os
+import os
 # import pickle
 from mycloweblog.extensions import db
 # from flask import current_app, url_for
@@ -8,6 +8,7 @@ from flask_avatars import Identicon
 # from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from mycloweblog.utils import shijc_type, shijc_now
+from mycloweblog.settings import BaseConfig
 # from myclowelog.extensions import whooshee
 
 
@@ -160,8 +161,10 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.Integer, default=shijc_now())
     mark = db.Column(db.Text)
-
-    admin_id = db.Column(db.SmallInteger)
+    # 是否来自管理员
+    from_admin = db.Column(db.Boolean, default=False)
+    # 管理员是否已查阅
+    reviewed = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(15))
     email = db.Column(db.String(15))
     site = db.Column(db.String(50))
@@ -185,10 +188,13 @@ class Comment(db.Model):
         self.generate_avatar()
 
     def generate_avatar(self):
-        avatar = Identicon()
-        filenames = avatar.generate(text=self.name)
-        self.avatar = filenames[0]
-        db.session.commit()
+        if self.from_admin:
+            self.avatar = "admin.jpg"
+        else:
+            avatar = Identicon()
+            filenames = avatar.generate(text=self.name)
+            self.avatar = filenames[0]
+            db.session.commit()
 
 
 class Tag(db.Model):
