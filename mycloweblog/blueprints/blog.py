@@ -1,6 +1,6 @@
 import pickle
 from flask import Blueprint, render_template, request, current_app, flash, redirect, \
-    url_for, jsonify, Response, make_response
+    url_for, jsonify, Response, make_response, send_from_directory
 from flask_login import login_required, current_user
 from mycloweblog.models import Blog, Category, Comment, Tag, Admin, Photo, Plate
 # from mycloweblog.forms.admin import EditProfileAdminForm
@@ -129,12 +129,13 @@ def add_comment():
         return jsonify(status=400, info={'msg': '发生错误：' + str(err)})
     else:
         print(type(comment.mark))
+        avatar = url_for('blog.get_avatar', filename=comment.avatar)
         html = "<div id=\"" + str(comment.id) + "\" replyid=\"" + reply_id + "\" " \
             "class=\"msg msg_" + comment.comment_yu + "\">\n" \
-            "<img alt=\"" + comment.name + "\" src=\"/static/images/touxiangm.png\">\n" \
+            "<img alt=\"" + comment.name + "\" src=\"" + avatar + "\">\n" \
             "<div class=\"message\">" \
             "<span class=\"name\">" + comment.name + "</span>" + tag + "\n" \
-            "<span class =\"time\">评论时间</span>" \
+            "<span class =\"time\">" + str(comment.get_time()) + "</span>" \
             "<a class =\"reply\" id=\"" + str(comment.id) + "\" " \
             "name=\"" + comment.name + "\" position=\"" + comment.comment_yu + "\">回复</a>" \
             "</div>" \
@@ -146,3 +147,8 @@ def add_comment():
             re.set_cookie('comment_email', email)
             re.set_cookie('comment_site', site)
         return re
+
+
+@blog_bp.route('/avatars/<path:filename>')
+def get_avatar(filename):
+    return send_from_directory(current_app.config['AVATARS_SAVE_PATH'], filename)

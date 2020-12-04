@@ -32,11 +32,12 @@
             <span class="oi oi-star"></span>
 {#            热度#}
             <span id="collectors-count-26" data-href="#">
-              <span class="oi oi-comment-square"></span> {{ blog.look_count }}
+              <span class="oi oi-comment-square">{{ blog.look_count }}&nbsp;查看</span>
             </span>&nbsp;&nbsp;
 
 {#            评论#}
-            <span class="oi oi-comment-square"></span> {{ blog.blog_comments|count }}
+            <span class="oi oi-comment-square">{{ blog.blog_comments|count }}&nbsp;评论</span>&nbsp;&nbsp;
+            <span class="oi oi-comment-square">{{ moment(blog.get_time()).fromNow(refresh=True) }}</span>
             <div class="float-right">
 {#                阅读全文#}
                 <a class="hide

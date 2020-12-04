@@ -440,13 +440,13 @@
 {% endmacro %}
 {% macro commentinfo(comment) %}
   <div id="{{ comment.id }}" {% if comment.commented %}replyid="{{ comment.commented.id }}" {% endif %}class="msg msg_{{ comment.comment_yu }}">
-    <img alt="{{ comment.name }}" src="{{ url_for("static", filename="images/touxiangm.png") }}">
+    <img alt="{{ comment.name }}" src="{{ url_for("blog.get_avatar", filename=comment.avatar) }}">
     <div class="message">
       <span class="name">{{ comment.name }}</span>
       {% if comment.from_admin %}
         <span class="admin">Master</span>
       {% endif %}
-      <span class="time">评论时间</span>
+      <span class="time">{{ moment(comment.get_time()).fromNow(refresh=True) }}</span>
       <a class="reply" id="{{ comment.id }}" name="{{ comment.name }}" position="{{ comment.comment_yu }}">回复</a>
     </div>
 

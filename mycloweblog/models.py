@@ -5,7 +5,7 @@ from mycloweblog.extensions import db
 from flask_login import UserMixin
 from flask_avatars import Identicon
 # import time
-# from datetime import datetime, timedelta
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from mycloweblog.utils import shijc_type, shijc_now
 from mycloweblog.settings import BaseConfig
@@ -119,6 +119,9 @@ class Blog(db.Model):
             # 可以在此设置随机的图片地址
             return "#"
 
+    def get_time(self):
+        return datetime.fromtimestamp(self.add_time)
+
 
 class Photo(db.Model):
     """
@@ -193,8 +196,11 @@ class Comment(db.Model):
         else:
             avatar = Identicon()
             filenames = avatar.generate(text=self.name)
-            self.avatar = filenames[0]
+            self.avatar = filenames[1]
             db.session.commit()
+
+    def get_time(self):
+        return datetime.fromtimestamp(self.add_time)
 
 
 class Tag(db.Model):

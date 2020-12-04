@@ -12,6 +12,7 @@ __pycache__/
 .idea
 /.idea/
 .idea/
+uploads/*
 migrations/
 build/
 develop-eggs/
@@ -113,3 +114,13 @@ venv.bak/
 /uploads/avatars/梵蒂冈的_l.png
 /uploads/avatars/梵蒂冈的_m.png
 /uploads/avatars/梵蒂冈的_s.png
+/uploads/avatars/admin.jpg
+/uploads/avatars/niaho_l.png
+/uploads/avatars/niaho_m.png
+/uploads/avatars/niaho_s.png
+/uploads/avatars/你啊_l.png
+/uploads/avatars/你啊_m.png
+/uploads/avatars/你啊_s.png
+/uploads/avatars/傻逼_l.png
+/uploads/avatars/傻逼_m.png
+/uploads/avatars/傻逼_s.png
