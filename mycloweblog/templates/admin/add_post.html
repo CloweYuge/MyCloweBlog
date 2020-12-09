@@ -24,7 +24,7 @@
 {#                    {{ render_field(form.title) }}#}
                     <div class="form-group required">
                         <label class="form-control-label" for="title">标题</label>
-                        <input class="form-control" id="title" name="title" required="" type="text" value="">
+                        <input class="form-control" id="title" name="title" required="" type="text" value="{% if mod == 1 %}{{ post.title }}{% endif %}">
                     </div>
                     <label class="form-control-label" for="title">分类</label>
                     <div class="card bg-light mb-3 w-100">
@@ -33,10 +33,10 @@
                             <div id="form">
                                 <div class="btn-group">
                                     <select name="plate_id" style="display: none;">
-                                        <option value="0">板块</option>
+                                        <option value="{% if mod == 1 %}{{ post.plate_blog.id }}">{{ post.plate_blog.name }}{% else %}0">板块{% endif %}</option>
                                     </select>
                                     <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle" type="button" id="dmbutton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        板块
+                                        {% if mod == 1 %}{{ post.plate_blog.name }}{% else %}板块{% endif %}
                                     </button>
                                     <div class="dropdown-menu" id="plate">
                                         {% for p in plates %}
@@ -49,15 +49,21 @@
 
                                 <div class="btn-group" {% if not categorys %}style="display: none"{% endif %}>
                                     <select name="category_id" style="display: none;">
-                                        <option value="0">分类</option>
+                                        <option value="{% if mod == 1 %}{{ post.category_blog.id }}">{{ post.category_blog.name }}{% else %}0">分类{% endif %}</option>
                                     </select>
                                     <button style="padding: 1px 12px 1px 12px" class="btn btn-secondary dropdown-toggle float-right" type="button" id="dmbutton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span fid="0">分类</span>
+                                        {% if mod == 1 %}{{ post.category_blog.name }}{% else %}分类{% endif %}
                                     </button>
                                     <div class="dropdown-menu" id="category">
-                                        {% for c in categorys %}
-                                        <a class="dropdown-item" href="#" fid="{{ c.id }}">{{ c.name }}</a>
-                                        {% endfor %}
+                                        {% if mod == 0 %}
+                                          {% for c in categorys %}
+                                          <a class="dropdown-item" href="#" fid="{{ c.id }}">{{ c.name }}</a>
+                                          {% endfor %}
+                                        {% elif mod == 1 %}
+                                          {% for c in post.plate_blog.plate_categorys %}
+                                          <a class="dropdown-item" href="#" fid="{{ c.id }}">{{ c.name }}</a>
+                                          {% endfor %}
+                                        {% endif %}
                                         <div class="dropdown-divider"></div>
                                         <input class="" id="add-category" type="text" placeholder="添加分类">
                                     </div>
@@ -125,8 +131,12 @@
                                     })
                                 </script>
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <input type="hidden" name="mod" value="{{ mod }}">
+                                {% if mod == 1 %}
+                                  <input type="hidden" name="post_id" value="{{ post.id }}">
+                                {% endif %}
                                 <button id="fat-btn" class="btn btn-primary float-right btn-sm" data-loading-text="Loading..."
-                                    type="button"> 发布文章
+                                    type="button"> {% if mod == 1 %}确认修改{% elif mod == 0 %}发布文章{% endif %}
                                 </button>
                                 <script>
                                     $("#fat-btn").click(function(){
@@ -134,7 +144,7 @@
                                         var obj = $(this);
                                         obj.attr('class', 'btn btn-primary float-right btn-sm disabled').text('Posting...');
                                         var form = $("#new-post").serialize();
-                                        form = form + "&h_content=" + editor.getHTML();
+                                        {#form = form + "&md_html=" + editor.getHTML();#}
                                         $.ajax({
                                             url: '{{ url_for("admin.add_post") }}',
                                             type: 'post',
@@ -210,7 +220,7 @@
 {#                    {{ render_field(form.body) }}#}
                     <div id="mdeditor" name="editormd"  style="border-radius: .25rem;">
 {#                        <label class="form-control-label" for="title">标题</label>#}
-                        <textarea aria-label="mdeditor" style="display:none;">### Hello Editor.md !</textarea>
+                        <textarea aria-label="mdeditor" style="display:none;">{% if mod == 1 %}{{ post.m_content }}{% else %}### Hello Editor.md !{% endif %}</textarea>
                     </div>
                 </div>
             </form>
@@ -248,7 +258,10 @@
         imageUpload: true,
         imageFormats   : ["jpg", "jpeg", "gif", "png", "JPG"],
         imageUploadURL : "{{ url_for("admin.img_up") }}", //文件提交请求路径
-        {#markdown: 'md',     // 设置内容dynamic set Markdown text#}
+{#        {% if mod == 1 %}#}
+        {#// 设置内容dynamic set Markdown text#}
+{#        markdown: "{{ post.m_content|safe }}",#}
+{#        {% endif %}#}
         path : "{{ url_for('static', filename='mdeditor/lib/') }}"  // Autoload modules mode, codemirror, marked... dependents libs path
       });
     });

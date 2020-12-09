@@ -27,6 +27,7 @@ def blog_show():
         if current_user.is_authenticated is False:
             blog.look_count = blog.look_count + 1
             db.session.commit()
+        print(blog.h_content, blog.m_content, blog.content)
         return render_template("blog/show_blog.html", blog=blog)
 
     return render_template("errors/404.html", msg="未找到文章信息！")

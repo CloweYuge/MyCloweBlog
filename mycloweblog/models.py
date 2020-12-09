@@ -81,13 +81,17 @@ class Blog(db.Model):
     文章
     """
     id = db.Column(db.Integer, primary_key=True)
+    # 首次添加的时间
     add_time = db.Column(db.Integer, default=shijc_now())
-    up_time = db.Column(db.Integer, default=shijc_now())
+    # 最近修改
+    up_time = db.Column(db.Integer, default=0)
     title = db.Column(db.String(100), nullable=False)
     # photos = db.Column(db.LargeBinary(length=16777210))
+    # 文章主体内容，依次为文本，html，md格式
     content = db.Column(db.Text)
     h_content = db.Column(db.Text)
-
+    m_content = db.Column(db.Text)
+    # 查看次数，仅记录非管理员
     look_count = db.Column(db.Integer, default=0)
 
     # 发布人
@@ -119,8 +123,11 @@ class Blog(db.Model):
             # 可以在此设置随机的图片地址
             return "#"
 
-    def get_time(self):
+    def get_add_time(self):
         return datetime.fromtimestamp(self.add_time)
+
+    def get_up_time(self):
+        return datetime.fromtimestamp(self.up_time)
 
 
 class Photo(db.Model):

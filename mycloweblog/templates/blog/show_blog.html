@@ -70,22 +70,24 @@
           </a>
           <br>
           <div>
-            发布于: {{ blog.add_time }}
+            发布于: {{ moment(blog.get_add_time()).fromNow(refresh=True) }}
             <span class="shuxian">|</span>
             {% if blog.up_time %}
-            最近修改: {{ blog.up_time }}
+            最近修改: {{ moment(blog.get_up_time()).fromNow(refresh=True) }}
             <span class="shuxian">|</span>
             {% endif %}
             <a href="#">评论数: {{ blog.blog_comments|count }}</a>
             <span class="shuxian">|</span>
             <a>字符量: {{ blog.h_content|striptags|length }}</a>
+            <span class="shuxian">|</span>
+            <a href="{{ url_for('admin.add_post', mod=1, post_id=blog.id) }}">修改</a>
           </div>
 
         </div>
       </div>
       <div id="test-markdown-view">
         <!-- Server-side output Markdown text -->
-        <textarea style="display:none;">{{ blog.content }}</textarea>
+        <textarea style="display:none;">{{ blog.m_content }}</textarea>
       </div>
       {{ commont_card(blog) }}
     </div>

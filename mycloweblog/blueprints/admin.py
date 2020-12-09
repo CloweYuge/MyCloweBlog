@@ -4,7 +4,7 @@ from mycloweblog.models import Blog, Category, Comment, Tag, Admin, Plate, Photo
 # from mycloweblog.forms.admin import EditProfileAdminForm
 from mycloweblog.extensions import db, csrf
 from mycloweblog.decorators import permission_required, admin_required
-from mycloweblog.utils import redirect_back
+from mycloweblog.utils import redirect_back, shijc_now
 
 
 admin_bp = Blueprint('admin', __name__)
@@ -18,20 +18,25 @@ def manage_index():
 @login_required
 @admin_bp.route("/add_post", methods=['POST', 'GET'])
 def add_post():
-    # print(request.args, request.form)
+    print(request.args, request.form)
+
     if request.method == 'GET':
-        # mod = request.args.get("mod", 0, type=int)
+        mod = request.args.get("mod", 0, type=int)
+        post = Blog.query.get(request.args.get("post_id", 0, type=int))
         plates = Plate.query.all()
         categorys = Category.query.all()
-        return render_template("admin/add_post.html", plates=plates, categorys=categorys)
+        return render_template("admin/add_post.html", plates=plates, categorys=categorys, mod=mod, post=post)
+
     elif request.method == 'POST':
         print(request.form)
+        mod = request.form.get("mod", 0, type=int)
         title = request.form.get("title", '')
         plate_id = request.form.get("plate_id", 0, type=int)
         category_id = request.form.get("category_id", 0, type=int)
         md_doc = request.form.get("mdeditor-markdown-doc", '')
+        # md_text = request.form.get("md_text")
         taginput = request.form.get("tagsinput", '')
-        h_content = request.form.get("h_content", '')
+        h_content = request.form.get("mdeditor-html-code", '')
         if title == '' or plate_id == 0 or category_id == 0 or md_doc == '':
             if title == '':
                 return jsonify(status=400, info={'msg': '请填写标题！'})
@@ -48,12 +53,23 @@ def add_post():
         else:
             tags = []
         try:
-            plate = Plate.query.get(plate_id)
-            category = Category.query.get(category_id)
+            plate = Plate.query.filter_by(id=plate_id).first()
+            category = Category.query.filter_by(id=category_id).first()
             # 建立新文章
             # 这特么还是游客账户，没法绑定，得先做登录
-            blog = Blog(admin_blog=current_user, title=title, content=md_doc, h_content=h_content, plate_blog=plate,
-                        category_blog=category)
+            print(title, plate, category)
+            if mod == 0:
+                blog = Blog(admin_blog=current_user, title=title, m_content=md_doc,
+                            h_content=h_content, plate_blog=plate, category_blog=category)
+            elif mod == 1:
+                blog = Blog.query.get(request.form.get("post_id", 0, type=int))
+                blog.title = title
+                blog.m_content = md_doc
+                blog.h_content = h_content
+                blog.plate_blog = plate
+                blog.category_blog = category
+            else:
+                return jsonify(status=400, info={'msg': '发生错误：未找到需要修改的文章'})
             if len(tags) > 0:
                 # 已存在的标签
                 tags_db = Tag.query.filter(Tag.name.in_(tags)).all()
@@ -65,7 +81,10 @@ def add_post():
                 # 关联到blog
                 blog.tags = tags_new + tags_db
                 print(tags_db, tags_name, tags_new)
-            db.session.add(blog)
+            if mod == 0:
+                db.session.add(blog)
+            else:
+                blog.up_time = shijc_now()
         except Exception as err:
             return jsonify(status=400, info={'msg': '发生错误：' + str(err)})
         else:
