@@ -25,10 +25,10 @@
 {% block nav %}
     <nav class="navbar sticky-top navbar-light bg-light navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="{{ url_for("static", filename="images/logo.png") }}" width="30" height="30" alt="">
+            <a class="navbar-brand" href="{{ url_for('blog.index') }}">
+                <img src="{{ url_for("static", filename="images/logo.png") }}" width="99" height="30" alt="">
             </a>
-            <a class="navbar-brand" href="{{ url_for('blog.index') }}">CloweBlog</a>
+{#            <a class="navbar-brand" href="{{ url_for('blog.index') }}">CloweBlog</a>#}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -58,7 +58,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                         aria-expanded="false">
                             <img class="avatar-xs"
-                                 src="{{ url_for("static", filename="images/logo.png") }}" width="22" height="22" alt="">
+                                 src="{{ url_for("static", filename="images/logo.png") }}" width="77" height="22" alt="">
                             <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" role="menu">

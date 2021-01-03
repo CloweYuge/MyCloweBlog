@@ -22,7 +22,7 @@
     padding: 20px;
     background-color: #ffffff;
     border-radius: 15px 15px 0 0;
-      box-shadow: 0 0 5px #c2c2c2;
+    box-shadow: 0 0 5px #c2c2c2;
   }
   .shuxian{
       margin-left: 5px;
@@ -78,11 +78,18 @@
             {% endif %}
             <a href="#">评论数: {{ blog.blog_comments|count }}</a>
             <span class="shuxian">|</span>
-            <a>字符量: {{ blog.h_content|striptags|length }}</a>
+            字符量: {{ blog.h_content|striptags|length }}
+            {% if current_user.is_authenticated %}
             <span class="shuxian">|</span>
             <a href="{{ url_for('admin.add_post', mod=1, post_id=blog.id) }}">修改</a>
+            {% endif %}
           </div>
 
+        </div>
+        <div class="blog_tags">
+          {% for t in blog.tags %}
+          <a href="{{ url_for("blog.tag_show", tag_id=t.id) }}" class="badge badge-info">{{ t.name }}</a>
+          {% endfor %}
         </div>
       </div>
       <div id="test-markdown-view">

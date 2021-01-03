@@ -10,12 +10,17 @@ from mycloweblog.utils import redirect_back, shijc_now
 admin_bp = Blueprint('admin', __name__)
 
 
+@admin_bp.before_request
+@login_required
+def login_protect():
+    pass
+
+
 @admin_bp.route("/manage")
 def manage_index():
     return render_template("")
 
 
-@login_required
 @admin_bp.route("/add_post", methods=['POST', 'GET'])
 def add_post():
     print(request.args, request.form)

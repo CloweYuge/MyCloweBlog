@@ -371,6 +371,7 @@
             type: 'post',
             data: form,
             success: function (result) {
+                console.log(result.status, result.msg)
               if (result.status === 200){
                 {#添加新节点，无需跳转#}
                 let msg = result.html;

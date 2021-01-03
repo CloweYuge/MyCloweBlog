@@ -51,6 +51,14 @@ def category_show():
     return render_template("errors/404.html", msg="未找到板块信息！")
 
 
+@blog_bp.route("/tag_show")
+def tag_show():
+    tag = Tag.query.get_or_404(request.args.get("tag_id", 0, type=int))
+    if tag:
+        return render_template("blog/show_tag.html", tag=tag)
+    return render_template("errors/404.html", msg="未找到该标签！")
+
+
 @blog_bp.route("/get_plate_category")
 def get_plate_category():
     print(request.args)
@@ -127,7 +135,7 @@ def add_comment():
         db.session.commit()
     except Exception as err:
         db.session.rollback()
-        return jsonify(status=400, info={'msg': '发生错误：' + str(err)})
+        return jsonify(status=400, info={'msg': '发生错误：' + str(err)}), 400
     else:
         print(type(comment.mark))
         avatar = url_for('blog.get_avatar', filename=comment.avatar)
